@@ -1,0 +1,11 @@
+<Test>
+  <string>Test 5</string>
+  <int>132</int>
+  <long>123453</long>
+  <float>12.33</float>
+  <double>12.33322123</double>
+  <bool>True</bool>
+  <bool2>False</bool2>
+  <bool3> 0 </bool3>
+  <bool4> 1</bool4>
+</Test>

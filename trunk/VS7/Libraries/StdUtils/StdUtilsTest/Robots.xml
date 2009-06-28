@@ -1,0 +1,49 @@
+<World>
+	<Name>Test World</Name>
+	<Width>200</Width>
+	<Height>300</Height>
+	<ConnectToDB>True</ConnectToDB>
+	<ScaleFactor>12.322</ScaleFactor>
+	<Robots>
+		<Robot>
+			<Name>Robot 1</Name>
+			<XPos>100</XPos>
+			<YPos>50</YPos>
+			<Rotation>2.12</Rotation>	
+			<Legs>
+				<Leg>
+					<Length>100</Length>
+					<Rotation>0.32</Rotation>	
+				</Leg>
+				<Leg>
+					<Length>110</Length>
+					<Rotation>0.42</Rotation>	
+				</Leg>
+				<Leg>
+					<Length>120</Length>
+					<Rotation>0.52</Rotation>	
+				</Leg>
+			</Legs>
+		</Robot>
+		<Robot>
+			<Name>Robot 2</Name>
+			<XPos>50</XPos>
+			<YPos>100</YPos>
+			<Rotation>3.12</Rotation>	
+			<Legs>
+				<Leg>
+					<Length>200</Length>
+					<Rotation>0.34</Rotation>	
+				</Leg>
+				<Leg>
+					<Length>210</Length>
+					<Rotation>0.44</Rotation>	
+				</Leg>
+				<Leg>
+					<Length>120</Length>
+					<Rotation>0.54</Rotation>	
+				</Leg>
+			</Legs>
+		</Robot>
+	</Robots>
+</World>

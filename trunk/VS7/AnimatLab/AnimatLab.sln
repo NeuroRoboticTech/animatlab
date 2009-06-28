@@ -1,0 +1,54 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "AnimatLab", "AnimatLab.vbproj", "{62C32849-A56E-4CB3-ABC2-C50DB4FDEC7E}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "AnimatTools", "..\Libraries\AnimatTools\AnimatTools.vbproj", "{45227561-EC56-46E0-9395-E1D86A7F3464}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicLibrary", "..\Libraries\MagicLibrary17\Source\MagicLibrary\MagicLibrary.csproj", "{92F94EA0-9910-4895-B8A1-FED1543A9DA1}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ManagedAnimatTools", "..\Libraries\AnimatTools\ManagedAnimatTools\ManagedAnimatTools.vcproj", "{CBF4C554-9AD3-41EF-AE37-4F53563F8828}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+		StrongMagic = StrongMagic
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{62C32849-A56E-4CB3-ABC2-C50DB4FDEC7E}.Debug.ActiveCfg = Debug|.NET
+		{62C32849-A56E-4CB3-ABC2-C50DB4FDEC7E}.Debug.Build.0 = Debug|.NET
+		{62C32849-A56E-4CB3-ABC2-C50DB4FDEC7E}.Release.ActiveCfg = Release|.NET
+		{62C32849-A56E-4CB3-ABC2-C50DB4FDEC7E}.Release.Build.0 = Release|.NET
+		{62C32849-A56E-4CB3-ABC2-C50DB4FDEC7E}.StrongMagic.ActiveCfg = Release|.NET
+		{62C32849-A56E-4CB3-ABC2-C50DB4FDEC7E}.StrongMagic.Build.0 = Release|.NET
+		{45227561-EC56-46E0-9395-E1D86A7F3464}.Debug.ActiveCfg = Debug|.NET
+		{45227561-EC56-46E0-9395-E1D86A7F3464}.Debug.Build.0 = Debug|.NET
+		{45227561-EC56-46E0-9395-E1D86A7F3464}.Release.ActiveCfg = Release|.NET
+		{45227561-EC56-46E0-9395-E1D86A7F3464}.Release.Build.0 = Release|.NET
+		{45227561-EC56-46E0-9395-E1D86A7F3464}.StrongMagic.ActiveCfg = Release|.NET
+		{45227561-EC56-46E0-9395-E1D86A7F3464}.StrongMagic.Build.0 = Release|.NET
+		{92F94EA0-9910-4895-B8A1-FED1543A9DA1}.Debug.ActiveCfg = Debug|.NET
+		{92F94EA0-9910-4895-B8A1-FED1543A9DA1}.Debug.Build.0 = Debug|.NET
+		{92F94EA0-9910-4895-B8A1-FED1543A9DA1}.Release.ActiveCfg = Release|.NET
+		{92F94EA0-9910-4895-B8A1-FED1543A9DA1}.Release.Build.0 = Release|.NET
+		{92F94EA0-9910-4895-B8A1-FED1543A9DA1}.StrongMagic.ActiveCfg = StrongMagic|.NET
+		{92F94EA0-9910-4895-B8A1-FED1543A9DA1}.StrongMagic.Build.0 = StrongMagic|.NET
+		{CBF4C554-9AD3-41EF-AE37-4F53563F8828}.Debug.ActiveCfg = Debug|Win32
+		{CBF4C554-9AD3-41EF-AE37-4F53563F8828}.Debug.Build.0 = Debug|Win32
+		{CBF4C554-9AD3-41EF-AE37-4F53563F8828}.Release.ActiveCfg = Release|Win32
+		{CBF4C554-9AD3-41EF-AE37-4F53563F8828}.Release.Build.0 = Release|Win32
+		{CBF4C554-9AD3-41EF-AE37-4F53563F8828}.StrongMagic.ActiveCfg = Release|Win32
+		{CBF4C554-9AD3-41EF-AE37-4F53563F8828}.StrongMagic.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

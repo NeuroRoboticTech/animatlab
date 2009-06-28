@@ -1,0 +1,39 @@
+<World>
+<Name>Test World</Name>
+<Width>200</Width>
+<Height>300</Height>
+<Robots>
+<Robot>
+<Name>Robot 1</Name>
+<XPos>100</XPos>
+<YPos>50</YPos>
+<Legs>
+<Leg>
+<Length>100</Length>
+</Leg>
+<Leg>
+<Length>110</Length>
+</Leg>
+<Leg>
+<Length>120</Length>
+</Leg>
+</Legs>
+</Robot>
+<Robot>
+<Name>Robot 2</Name>
+<XPos>50</XPos>
+<YPos>100</YPos>
+<Legs>
+<Leg>
+<Length>200</Length>
+</Leg>
+<Leg>
+<Length>210</Length>
+</Leg>
+<Leg>
+<Length>120</Length>
+</Leg>
+</Legs>
+</Robot>
+</Robots>
+</World>

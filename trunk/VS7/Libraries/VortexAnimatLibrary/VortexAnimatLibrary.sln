@@ -1,0 +1,21 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VortexAnimatLibrary", "VortexAnimatLibrary.vcproj", "{C57E9FAC-C948-4386-A585-54FB1876FBCE}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{C57E9FAC-C948-4386-A585-54FB1876FBCE}.Debug.ActiveCfg = Debug|Win32
+		{C57E9FAC-C948-4386-A585-54FB1876FBCE}.Debug.Build.0 = Debug|Win32
+		{C57E9FAC-C948-4386-A585-54FB1876FBCE}.Release.ActiveCfg = Release|Win32
+		{C57E9FAC-C948-4386-A585-54FB1876FBCE}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

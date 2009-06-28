@@ -1,0 +1,99 @@
+1. If you change the name of a subnetwork using the Name property it only changes it on the node, not in the tabs. But if you click on it and change the name it works fine.
+
+2. Change the relative size of the neuron limits to go down to 1e-6.
+3. Change the neuron so it shows Input resistance so you can put in relative size and it calculates Ri, or vice versa.
+
+4. Add the ability to add ion channels. It would still be a basic integrate and fire neural system, so we would still not be using the HH model for the AP itself, but youo could add other channels like slower calcium channels. Have a list in the properties where the user can add channels. They would need to specify the eq potential, the params for the activation and inactivation dynamics. Calculate the diff eqs and add the delta v's to the total vDot.
+
+5. Add a Where do I start section on the help.
+
+6. The images are missing in the Body Editor page.
+7. At the bottom of the page, the copyright year should be 2007 (or 
+perhaps 2004 - 2007). Some pages use 2006, some use 2002.
+8. I think the help system should be featured more prominently on the 
+first page (Home). I missed it the first time I visit the web page, and 
+only find this "hidden treasure" the second time around. I think there 
+should be a separate section like "How do I learn to use AnimatLab?" 
+
+9. In the help system, I prefer a"table of content" hierarchy that gives 
+a big picture of the topics. Something like the topic hierarchy in the 
+site map. This would help users jump to a specific topic quickly. For 
+example, right now if I want to go to "hinge", I'll have to go to "body 
+editor" first, then "joints", and then "hinge".
+10. I suggest we place an annotated picture of the AnimatLab interface 
+(like Figure 1) in the "Help" page so that users would know which is 
+behavioral editor, body editor, etc. It'd be better that the annotations 
+are hyperlinked to the specific help pages so that the users can use 
+that interface picture as a map to find the specific topics about the 
+interface.
+10. The search function doesn't seem to work.
+
+11. Add ability to move selected nodes using up/down arrow keys
+
+12. In Data Array if you select the columns then they sort up down. Get rid of this.
+
+13. Be able to copy and paste neural items between projects.
+
+14. If you resize the simulation window to have no width or height the sim stops working. Need to make it so you can not resize it past some point.
+
+15. Undo Zoom disapears sometimes.
+
+16. If I add a second Inverse dynamics stim to the same cell I get an error and there is a stim that can not be referenced or deleted.
+
+17. Add the splash screen back.
+
+18. If something is disabled then grey its icon out.
+
+
+19. As a frequent question "I can not run simulations because it says unable t open file"
+If you are a limited user permission and the tutorials are stored in program files then 
+windows makes those files read-only and will not let the program save them. You must
+move the tutorials to a new location.
+
+20. Get an error when deleting a joint
+
+21. Add the ability to find a point in world coords in the body editor.
+
+22. If you copy/paste a muscle it adds the muscle in with a joint in between. ??  Fixed
+
+23. If you change the name of a subsystem using the text property it does not change the tab name
+
+24. When someone selects multiple objects, then if they are of the same type or derived from each other then add a menu item called "compare items"
+This will bring up a dialog box that has a scrolling form with property boxes for each of the selected items side by side for easy viewing
+It will also have a combo box where they can select one of the items and hit a "Copy properties to All" button. This will copy all 
+of the critical parameters. 
+
+25. Add the code to use defaults in the xml to reduce the size of the files and the load time.
+
+26. Fix the undo/redo system and add a Project Logbook. It will keep track of every change made to the project in a list within a window that can also be kept open. Users can add comments to any changed item to document why that change was made. They can also insert notes and images from the charts to document their work as they go along. Only the changes made during the current session can be undone, all others are saved as a text description. This will allow them to see all the changes that they have made to get where they are, and it will let them document why they were making changes and what happened when they did. This is essentially an automated lab notebook for the project.
+
+27. When muscles are cut/copied and pasted the attachments are not copied. When a cut is made then it needs to use the exact same attachments as before. When a copy is done then if the attachments are in the copied portion of the limb then these attachments need to be copied as well.
+
+28. Switch the loading of the simulator system to use an XML string to load instead of having to save all the files and then load those. This will get rid of one of dr. edwards biggest peeves in that it saves every time the sim is run.
+
+29. Add ability to change names in treeview of workspace.
+
+30. Fix problem where changing the name of a tool does propogate to the window and vice-versa.
+
+31. One big problem that everyone ran into is that if you are charting a lot of data it really, reallly slows down the simulation, and if it is slow enough then it can actually lock up the application not allowing you to stop the simulation. This means you have to actually kill the app. To get around this I propose that we add a new flag to the data chart called "Update At End". Charts will default to using a start-end time, and this value can only be set if that value is true. If update at end is true then the chart is not updated during the run, but only once during the end time. This should prevent the problem because it is only updated once.
+
+32. Need the ability to replace an existing body part with a new one. For example, swap an existing box part with a mesh, and vice-versa, or swap a hinge joint for a static.
+
+33. We need to create a new webservice system that will allow the application to query it to check if any updates are available. If they are then it will download it and install. It would be nice if an existing system existed that did this so we do not have to build it from scratch. We need something that can check the existing components that the user has and check to see if any are available in new versions. Also, it needs the ability to display change notes so the user will no what changes, bugs, or new features are available.
+
+34. Add ability to disable synpases in realistin neural net.
+
+35. Add environmental editor
+
+36. Add The ability to nest stimuli into experiments. This will let someone create an entire experiment that is made-up of multiple stimuli and then enable or disable that experiment. Experiments could also be grouped together as well. They would right-click on a node in the stimuli section of the project workspace and select "add experiment". They could then add stimuli and experiments to that node. Each experiment can be enabled/disabled and named. when the enabled/disabled property is flipped on an experiment it does not directly affect those same settings on items underneath. All it means is that when the stimuli are added to the simulation then everything in an experiment that is disabled will be skipped. 
+
+37. Add materials for each of the bodies. This will allow us to control things like friction of individual parts.
+
+38. Add a new Project Type object. Right now there are somethings like the dll names to use for the projects and stuff that are hard-coded. This type of info should be stored in the project type. When the user creates a new project a dialog box will come up listing the types of projects they can create. (Similar to how visual studio works). When they select one then it will know which dll's to use for that project type. This will allow us to have the vc8 and vc7 versions of the system running at the same time.
+
+39. The body editor file should be seperated from the simulator file. Right now they are the same, but the editor typically has a lot of stuff the simulator does not need. Also, it is much more convinient if they are seperate.
+
+40. Ability to delete multiple data tools and stimuli at the same time.
+
+41. If you disable a fast synapse that is gated or modulated then it still is processed. Disabling does nothing.
+

@@ -1,0 +1,63 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "AnimatTools", "AnimatTools.vbproj", "{45227561-EC56-46E0-9395-E1D86A7F3464}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ManagedAnimatTools", "ManagedAnimatTools\ManagedAnimatTools.vcproj", "{CBF4C554-9AD3-41EF-AE37-4F53563F8828}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "LicensedAnimatTools", "..\LicensedAnimatTools\LicensedAnimatTools.vbproj", "{058DF82A-3C95-41B6-BF81-F30EE747515C}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "FastNeuralNetTools", "..\FastNeuralNetTools\FastNeuralNetTools.vbproj", "{CE6F1806-6605-4C11-A70E-38130C9DB3E7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CBF4C554-9AD3-41EF-AE37-4F53563F8828} = {CBF4C554-9AD3-41EF-AE37-4F53563F8828}
+		{45227561-EC56-46E0-9395-E1D86A7F3464} = {45227561-EC56-46E0-9395-E1D86A7F3464}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VortexAnimatTools", "..\VortexAnimatTools\VortexAnimatTools.csproj", "{281D71FA-86A5-4B5B-850E-838F7DD696AA}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "RealisticNeuralNetTools", "..\RealisticNeuralNetTools\RealisticNeuralNetTools.vbproj", "{CA9FC172-4481-43DC-8F8F-1506643B65EB}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{45227561-EC56-46E0-9395-E1D86A7F3464}.Debug.ActiveCfg = Debug|.NET
+		{45227561-EC56-46E0-9395-E1D86A7F3464}.Debug.Build.0 = Debug|.NET
+		{45227561-EC56-46E0-9395-E1D86A7F3464}.Release.ActiveCfg = Release|.NET
+		{45227561-EC56-46E0-9395-E1D86A7F3464}.Release.Build.0 = Release|.NET
+		{CBF4C554-9AD3-41EF-AE37-4F53563F8828}.Debug.ActiveCfg = Debug|Win32
+		{CBF4C554-9AD3-41EF-AE37-4F53563F8828}.Debug.Build.0 = Debug|Win32
+		{CBF4C554-9AD3-41EF-AE37-4F53563F8828}.Release.ActiveCfg = Release|Win32
+		{CBF4C554-9AD3-41EF-AE37-4F53563F8828}.Release.Build.0 = Release|Win32
+		{058DF82A-3C95-41B6-BF81-F30EE747515C}.Debug.ActiveCfg = Debug|.NET
+		{058DF82A-3C95-41B6-BF81-F30EE747515C}.Debug.Build.0 = Debug|.NET
+		{058DF82A-3C95-41B6-BF81-F30EE747515C}.Release.ActiveCfg = Release|.NET
+		{058DF82A-3C95-41B6-BF81-F30EE747515C}.Release.Build.0 = Release|.NET
+		{CE6F1806-6605-4C11-A70E-38130C9DB3E7}.Debug.ActiveCfg = Debug|.NET
+		{CE6F1806-6605-4C11-A70E-38130C9DB3E7}.Debug.Build.0 = Debug|.NET
+		{CE6F1806-6605-4C11-A70E-38130C9DB3E7}.Release.ActiveCfg = Release|.NET
+		{CE6F1806-6605-4C11-A70E-38130C9DB3E7}.Release.Build.0 = Release|.NET
+		{281D71FA-86A5-4B5B-850E-838F7DD696AA}.Debug.ActiveCfg = Debug|.NET
+		{281D71FA-86A5-4B5B-850E-838F7DD696AA}.Debug.Build.0 = Debug|.NET
+		{281D71FA-86A5-4B5B-850E-838F7DD696AA}.Release.ActiveCfg = Release|.NET
+		{281D71FA-86A5-4B5B-850E-838F7DD696AA}.Release.Build.0 = Release|.NET
+		{CA9FC172-4481-43DC-8F8F-1506643B65EB}.Debug.ActiveCfg = Debug|.NET
+		{CA9FC172-4481-43DC-8F8F-1506643B65EB}.Debug.Build.0 = Debug|.NET
+		{CA9FC172-4481-43DC-8F8F-1506643B65EB}.Release.ActiveCfg = Release|.NET
+		{CA9FC172-4481-43DC-8F8F-1506643B65EB}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal
