@@ -508,8 +508,6 @@ Namespace DataObjects.Physical
 
             m_thDataTypes.ID = "BodyForceX"
 
-            AddCompatibleStimulus(New AnimatTools.DataObjects.ExternalStimuli.Force(Nothing))
-
             m_thIncomingDataType = New AnimatTools.DataObjects.DataType("BodyForceX", "Body Force X", "Newtons", "N", -100, 100, ScaledNumber.enumNumericScale.None, ScaledNumber.enumNumericScale.None)
 
             m_snReceptiveFieldDistance = New ScaledNumber(Me, "RecptiveFieldDistance", 25, ScaledNumber.enumNumericScale.centi, "Meters", "m")
@@ -555,6 +553,11 @@ Namespace DataObjects.Physical
 
             m_vSelectedReceptiveField = New AnimatTools.Framework.Vec3d(Nothing, 0, 0, 0)
 
+        End Sub
+
+        Public Overrides Sub InitAfterAppStart()
+            MyBase.InitAfterAppStart()
+            AddCompatibleStimulusType("ForceInput")
         End Sub
 
         Public Overrides Sub ClearIsDirty()

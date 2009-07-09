@@ -126,8 +126,6 @@ namespace VortexAnimatTools.DataObjects.Physical.RigidBodies
 			m_thDataTypes.DataTypes.Add(new AnimatTools.DataObjects.DataType("AdapterConsumptionRate", "Adapter Consumption Rate", "", "", -10000, 10000));
 			m_thDataTypes.ID = "EnergyLevel";
 
-			m_aryCompatibleStimuli.Clear();
-
 			this.ID = "STOMACH";
 		}
 

@@ -402,7 +402,7 @@ Namespace DataObjects.Physical
 
                 ' Create the menu items
 
-                If Me.AllowStimulus AndAlso m_aryCompatibleStimuli.Count > 0 Then
+                If Me.AllowStimulus AndAlso Me.CompatibleStimuli.Count > 0 Then
                     ' Create the menu items
                     Dim mcAddStimulus As New MenuCommand("Add Stimulus", "AddStimulus", Util.Application.SmallImages.ImageList, _
                                                          Util.Application.SmallImages.GetImageIndex("AnimatTools.AddStimulus.gif"), _
@@ -463,7 +463,7 @@ Namespace DataObjects.Physical
                 Util.Application.NewStimuliIndex = Util.Application.NewStimuliIndex + 1
                 doStimulus.Name = "Stimulus_" & Util.Application.NewStimuliIndex
 
-                Util.Application.Stimuli.Add(doStimulus.ID, doStimulus)
+                Util.Application.ProjectStimuli.Add(doStimulus.ID, doStimulus)
                 doStimulus.CreateWorkspaceTreeView(Util.Simulation, Util.Application.ProjectWorkspace)
             End If
         End Sub

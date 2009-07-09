@@ -309,10 +309,11 @@ try
 	//Now lets get the index and type of this neuron
 	oXml.IntoElem();  //Into Neuron Element
 	Std_LoadPoint(oXml, "Position", oPos);
+	string strModuleName = oXml.GetChildString("ModuleName", "[*PROJECT_NAME*]");
 	strType = oXml.GetChildString("Type");
 	oXml.OutOfElem();  //OutOf Neuron Element
 
-	lpNeuron = dynamic_cast<Neuron *>(lpSim->CreateObject("[*PROJECT_NAME*]", "Neuron", strType));
+	lpNeuron = dynamic_cast<Neuron *>(lpSim->CreateObject(strModuleName, "Neuron", strType));
 	if(!lpNeuron)
 		THROW_TEXT_ERROR(Al_Err_lConvertingClassToType, Al_Err_strConvertingClassToType, "Neuron");
 

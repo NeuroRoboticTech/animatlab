@@ -143,6 +143,7 @@ Namespace Forms
 
         Protected m_dsSimulation As DataObjects.Simulation
 
+        Protected m_aryAllDataObjects As New Collections.DataObjects(Nothing)
         Protected m_aryNeuralModules As New Collections.SortedNeuralModules(Nothing)
         Protected m_aryPlugInAssemblies As New Collections.SortedAssemblies(Nothing)
         Protected m_aryBehavioralNodes As New Collections.Nodes(Nothing)
@@ -156,6 +157,7 @@ Namespace Forms
         Protected m_aryGainTypes As New Collections.Gains(Nothing)
         Protected m_aryProgramModules As New Collections.ProgramModules(Nothing)
         Protected m_aryMicrocontrollers As New Collections.Microcontrollers(Nothing)
+        Protected m_aryExternalStimuli As New Collections.Stimuli(Nothing)
 
         Protected m_wcWorkspaceContent As Crownwood.Magic.Docking.WindowContent
         Protected m_frmWorkspace As Forms.ProjectWorkspace
@@ -167,7 +169,7 @@ Namespace Forms
         Protected m_aryToolHolders As New Collections.SortedToolHolders(m_doFormHelper)
         Protected m_iNewToolHolderIndex As Integer = 0
 
-        Protected m_aryStimuli As New Collections.SortedStimuli(m_doFormHelper)
+        Protected m_aryProjectStimuli As New Collections.SortedStimuli(m_doFormHelper)
         Protected m_iNewStimuliIndex As Integer = 0
 
         Protected m_ptSimWindowLocation As System.Drawing.Point
@@ -485,6 +487,12 @@ Namespace Forms
             End Get
         End Property
 
+        Public Overridable ReadOnly Property ExternalStimuli() As Collections.Stimuli
+            Get
+                Return m_aryExternalStimuli
+            End Get
+        End Property
+
         Public Overridable ReadOnly Property ToolPlugins() As Collections.Tools
             Get
                 Return m_aryToolPlugins
@@ -500,9 +508,9 @@ Namespace Forms
             End Set
         End Property
 
-        Public Overridable ReadOnly Property Stimuli() As Collections.SortedStimuli
+        Public Overridable ReadOnly Property ProjectStimuli() As Collections.SortedStimuli
             Get
-                Return m_aryStimuli
+                Return m_aryProjectStimuli
             End Get
         End Property
 
@@ -779,7 +787,7 @@ Namespace Forms
             m_aryBodyPartTypes.ClearIsDirty()
             m_aryRigidBodyTypes.ClearIsDirty()
             m_aryJointTypes.ClearIsDirty()
-            m_aryStimuli.ClearIsDirty()
+            m_aryProjectStimuli.ClearIsDirty()
 
             Dim mdiChild As Forms.MdiChild
             For Each oChild As Form In Me.MdiChildren
@@ -820,7 +828,7 @@ Namespace Forms
                 Util.Simulation.UnitsChanged(ePrevMass, eNewMass, fltMassChange, ePrevDist, eNewDistance, fltDistanceChange)
 
                 Dim doStim As AnimatTools.Framework.DataObject
-                For Each deEntry As DictionaryEntry In Me.Stimuli
+                For Each deEntry As DictionaryEntry In Me.ProjectStimuli
                     doStim = DirectCast(deEntry.Value, AnimatTools.Framework.DataObject)
                     doStim.UnitsChanged(ePrevMass, eNewMass, fltMassChange, ePrevDist, eNewDistance, fltDistanceChange)
                 Next
@@ -842,7 +850,7 @@ Namespace Forms
         Public Overridable Function FindStimulusByName(ByVal strName As String, Optional ByVal bThrowError As Boolean = True) As DataObjects.ExternalStimuli.Stimulus
 
             Dim doStim As DataObjects.ExternalStimuli.Stimulus
-            For Each deEntry As DictionaryEntry In Me.Stimuli
+            For Each deEntry As DictionaryEntry In Me.ProjectStimuli
                 doStim = DirectCast(deEntry.Value, DataObjects.ExternalStimuli.Stimulus)
 
                 If doStim.Name = strName Then
@@ -873,6 +881,7 @@ Namespace Forms
                 Dim aryFileNames As New ArrayList
                 Dim bAddModule As Boolean = False
 
+                m_aryAllDataObjects.Clear()
                 m_aryNeuralModules.Clear()
                 m_aryNeuralModules.Clear()
                 m_aryPlugInAssemblies.Clear()
@@ -885,6 +894,7 @@ Namespace Forms
                 m_aryGainTypes.Clear()
                 m_aryProgramModules.Clear()
                 m_aryMicrocontrollers.Clear()
+                m_aryExternalStimuli.Clear()
 
                 'First find a list of all possible assemblies. It may be one or it may be a standard win32 dll. We will have to see later.
                 Util.FindAssemblies(Me.ApplicationDirectory(), aryFileNames)
@@ -913,18 +923,21 @@ Namespace Forms
                                         Dim bnNode As DataObjects.Behavior.Node = CreateNode(assemModule, tpClass, Nothing)
                                         If Not bnNode Is Nothing Then
                                             m_aryBehavioralNodes.Add(bnNode)
+                                            m_aryAllDataObjects.Add(bnNode)
                                             bAddModule = True
                                         End If
                                     ElseIf Util.IsTypeOf(tpClass, GetType(AnimatTools.DataObjects.Behavior.Link)) Then
                                         Dim blLink As DataObjects.Behavior.Link = CreateLink(assemModule, tpClass, Nothing)
                                         If Not blLink Is Nothing Then
                                             m_aryBehavioralLinks.Add(blLink)
+                                            m_aryAllDataObjects.Add(blLink)
                                             bAddModule = True
                                         End If
                                     ElseIf Util.IsTypeOf(tpClass, GetType(AnimatTools.DataObjects.Behavior.NeuralModule)) Then
                                         Dim nmModule As DataObjects.Behavior.NeuralModule = CreateNeuralModule(assemModule, tpClass, Nothing)
                                         If Not nmModule Is Nothing Then
                                             m_aryNeuralModules.Add(nmModule.ClassName, nmModule)
+                                            m_aryAllDataObjects.Add(nmModule)
                                             bAddModule = True
                                         End If
                                     ElseIf Util.IsTypeOf(tpClass, GetType(AnimatTools.Forms.Tools.ToolForm)) Then
@@ -939,6 +952,7 @@ Namespace Forms
 
                                                 m_aryBodyPartTypes.Add(doPart)
                                                 m_aryRigidBodyTypes.Add(doPart)
+                                                m_aryAllDataObjects.Add(doPart)
                                                 bAddModule = True
                                             End If
                                         Catch ex As System.Exception
@@ -951,6 +965,7 @@ Namespace Forms
 
                                                 m_aryBodyPartTypes.Add(doPart)
                                                 m_aryJointTypes.Add(doPart)
+                                                m_aryAllDataObjects.Add(doPart)
                                                 bAddModule = True
                                             End If
                                         Catch ex As System.Exception
@@ -960,16 +975,25 @@ Namespace Forms
                                         Dim doGain As DataObjects.Gain = CreateGain(assemModule, tpClass, Nothing)
                                         If Not doGain Is Nothing Then
                                             m_aryGainTypes.Add(doGain)
+                                            m_aryAllDataObjects.Add(doGain)
                                         End If
                                     ElseIf Util.IsTypeOf(tpClass, GetType(AnimatTools.DataObjects.ProgramModule)) Then
                                         Dim doModule As DataObjects.ProgramModule = CreateProgramModule(assemModule, tpClass, Nothing)
                                         If Not doModule Is Nothing Then
                                             m_aryProgramModules.Add(doModule)
+                                            m_aryAllDataObjects.Add(doModule)
                                         End If
                                     ElseIf Util.IsTypeOf(tpClass, GetType(AnimatTools.DataObjects.Physical.Microcontroller), False) Then
                                         Dim doModule As DataObjects.Physical.Microcontroller = CreateMicrocontroller(assemModule, tpClass, Nothing)
                                         If Not doModule Is Nothing Then
                                             m_aryMicrocontrollers.Add(doModule)
+                                            m_aryAllDataObjects.Add(doModule)
+                                        End If
+                                    ElseIf Util.IsTypeOf(tpClass, GetType(AnimatTools.DataObjects.ExternalStimuli.Stimulus), False) Then
+                                        Dim doStim As DataObjects.ExternalStimuli.Stimulus = CreateExternalStimuli(assemModule, tpClass, Nothing)
+                                        If Not doStim Is Nothing Then
+                                            m_aryExternalStimuli.Add(doStim)
+                                            m_aryAllDataObjects.Add(doStim)
                                         End If
                                     End If
                                 Next
@@ -992,6 +1016,10 @@ Namespace Forms
                     End Try
 
                 Next
+
+                Me.Logger.LogMsg(Interfaces.Logger.enumLogLevel.Debug, "Initialize dataobjects after Application Start")
+
+                InitializeDataObjectsAfterAppStart()
 
                 Me.Logger.LogMsg(Interfaces.Logger.enumLogLevel.Debug, "Finished Looping through assemblies")
 
@@ -1026,6 +1054,18 @@ Namespace Forms
                 End If
             End Try
 
+        End Sub
+
+        Protected Overridable Sub InitializeDataObjectsAfterAppStart()
+
+            Try
+                For Each doObj As Framework.DataObject In m_aryAllDataObjects
+                    doObj.InitAfterAppStart()
+                Next
+
+            Catch ex As System.Exception
+                AnimatTools.Framework.Util.DisplayError(ex)
+            End Try
         End Sub
 
         Protected Overridable Function CreateNode(ByVal assemModule As System.Reflection.Assembly, ByVal tpClass As System.Type, ByVal doParent As AnimatTools.Framework.DataObject) As DataObjects.Behavior.Node
@@ -1166,6 +1206,22 @@ Namespace Forms
             Catch ex As System.Exception
                 If ex.Message <> "Cannot create an abstract class." Then
                     MessageBox.Show("CreateProgramModule: " & tpClass.FullName)
+                    AnimatTools.Framework.Util.DisplayError(ex)
+                End If
+            End Try
+
+        End Function
+
+        Protected Overridable Function CreateExternalStimuli(ByVal assemModule As System.Reflection.Assembly, ByVal tpClass As System.Type, ByVal doParent As AnimatTools.Framework.DataObject) As DataObjects.ExternalStimuli.Stimulus
+
+            Try
+                If Not tpClass.IsAbstract Then
+                    Dim doStim As DataObjects.ExternalStimuli.Stimulus = DirectCast(Util.LoadClass(assemModule, tpClass.FullName, doParent), DataObjects.ExternalStimuli.Stimulus)
+                    Return doStim
+                End If
+            Catch ex As System.Exception
+                If ex.Message <> "Cannot create an abstract class." Then
+                    MessageBox.Show("CreateExternalStimuli: " & tpClass.FullName)
                     AnimatTools.Framework.Util.DisplayError(ex)
                 End If
             End Try
@@ -1826,7 +1882,7 @@ Namespace Forms
             m_iNewToolHolderIndex = 0
 
             'Lets remove all of the stimuli and reset the count.
-            m_aryStimuli.Clear()
+            m_aryProjectStimuli.Clear()
             m_iNewStimuliIndex = 0
 
             m_frmWorkspace = Nothing
@@ -2237,7 +2293,7 @@ Namespace Forms
                         doStim.LoadData(oXml)
 
                         If Not doStim.StimulusNoLongerValid Then
-                            m_aryStimuli.Add(doStim.ID, doStim)
+                            m_aryProjectStimuli.Add(doStim.ID, doStim)
                         End If
                     Next
 
@@ -2334,7 +2390,7 @@ Namespace Forms
 
             Dim aryStimsToDelete As New Collection
             Dim doStim As DataObjects.ExternalStimuli.Stimulus
-            For Each deEntry As DictionaryEntry In m_aryStimuli
+            For Each deEntry As DictionaryEntry In m_aryProjectStimuli
                 doStim = DirectCast(deEntry.Value, DataObjects.ExternalStimuli.Stimulus)
 
                 If doStim.StimulusNoLongerValid Then
@@ -2352,7 +2408,7 @@ Namespace Forms
 
             'Now lets delete any stims that are no longer valid
             For Each doStim In aryStimsToDelete
-                m_aryStimuli.Remove(doStim.ID)
+                m_aryProjectStimuli.Remove(doStim.ID)
 
                 If Not doStim.WorkspaceTreeNode Is Nothing Then
                     doStim.WorkspaceTreeNode.Remove()
@@ -3209,7 +3265,7 @@ Namespace Forms
                 'Lets setup the external stimuli
                 Dim aryDelete As New Collection
                 Dim doStim As DataObjects.ExternalStimuli.Stimulus
-                For Each deEntry As DictionaryEntry In m_aryStimuli
+                For Each deEntry As DictionaryEntry In m_aryProjectStimuli
                     doStim = DirectCast(deEntry.Value, DataObjects.ExternalStimuli.Stimulus)
 
                     'If the stimulus is no longer valid then delete it.
@@ -3236,7 +3292,7 @@ Namespace Forms
             Try
                 'Lets setup the external stimuli
                 Dim doStim As DataObjects.ExternalStimuli.Stimulus
-                For Each deEntry As DictionaryEntry In m_aryStimuli
+                For Each deEntry As DictionaryEntry In m_aryProjectStimuli
                     doStim = DirectCast(deEntry.Value, DataObjects.ExternalStimuli.Stimulus)
                     doStim.PrepareForSimulation()
                 Next
@@ -3416,7 +3472,7 @@ Namespace Forms
                 m_aryAlphabeticalBehavioralPanels.Clear()
                 m_aryToolPlugins.Clear()
                 m_aryToolHolders.Clear()
-                m_aryStimuli.Clear()
+                m_aryProjectStimuli.Clear()
 
                 m_dockManager.Dispose()
 

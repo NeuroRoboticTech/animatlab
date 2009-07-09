@@ -269,10 +269,15 @@ namespace VortexAnimatTools.DataObjects.Physical.Joints
 			m_snMaxForce = new AnimatTools.Framework.ScaledNumber(this, "MaxForce", 100, AnimatTools.Framework.ScaledNumber.enumNumericScale.None, "Newtons", "N");
 			m_snMaxVelocity = new AnimatTools.Framework.ScaledNumber(this, "MaxVelocity", 100, AnimatTools.Framework.ScaledNumber.enumNumericScale.None, "m/s", "m/s");
 
-			AddCompatibleStimulus(new AnimatTools.DataObjects.ExternalStimuli.MotorVelocity(null));
-			AddCompatibleStimulus(new AnimatTools.DataObjects.ExternalStimuli.Enabler(null));
-			AddCompatibleStimulus(new VortexAnimatTools.DataObjects.ExternalStimuli.PositionClamp(null));
 			m_vrConstraint = new DxPrismaticConstraintRef(this);			
+		}
+
+		public override void InitAfterAppStart()
+		{
+			base.InitAfterAppStart();
+			AddCompatibleStimulusType("MotorVelocity");
+			AddCompatibleStimulusType("EnablerInput");
+			AddCompatibleStimulusType("PositionClamp");
 		}
 
 		/// <summary>

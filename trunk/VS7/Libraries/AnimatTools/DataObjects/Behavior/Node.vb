@@ -974,7 +974,7 @@ Namespace DataObjects.Behavior
                 Util.Application.NewStimuliIndex = Util.Application.NewStimuliIndex + 1
                 doStimulus.Name = "Stimulus_" & Util.Application.NewStimuliIndex
 
-                Util.Application.Stimuli.Add(doStimulus.ID, doStimulus)
+                Util.Application.ProjectStimuli.Add(doStimulus.ID, doStimulus)
                 doStimulus.CreateWorkspaceTreeView(Util.Simulation, Util.Application.ProjectWorkspace)
             End If
         End Sub

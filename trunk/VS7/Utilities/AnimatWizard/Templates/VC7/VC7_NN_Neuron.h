@@ -16,29 +16,22 @@ namespace [*PROJECT_NAME*]
 		protected:
 
 			float m_fltExternalI;	//Externally injected current
-			float m_fltIntrinsicI; //Intrinsic current.
 			float m_fltSynapticI;	//Current synaptic current.
 			float m_fltAdapterI; //current added from all of the adapters.
 			float m_fltAdapterMemoryI;  //Used to allow datacharts to track current input from adapters.
 			float m_fltFiringFreq;  //Current firing frequency.
 			float m_fltVndisp;      // this is the membrane voltage that is reported back to animatlab.
+			float m_fltVrest;      //Rest potential.
 
 			CStdPtrArray<Synapse> m_arySynapses;
 
 			virtual float CalculateSynapticCurrent(Simulator *lpSim, Organism *lpOrganism, [*PROJECT_NAME*]NeuralModule *lpModule);
-			virtual float CalculateIntrinsicCurrent(Simulator *lpSim, Organism *lpOrganism, [*PROJECT_NAME*]NeuralModule *lpModule, float fltInputCurrent);
 
 			Synapse *LoadSynapse(Simulator *lpSim, Structure *lpStructure, CStdXml &oXml);
 
 		public:
 			Neuron();
 			virtual ~Neuron();
-
-			float ExternalI();
-			void ExternalI(float fltVal);
-
-			float IntrinsicCurrent();
-			void IntrinsicCurrent(float fltVal);
 
 			virtual unsigned char NeuronType();
 

@@ -44,8 +44,6 @@ namespace VortexAnimatTools.DataObjects.Physical.RigidBodies
 			m_thDataTypes.DataTypes.Add(new AnimatTools.DataObjects.DataType("BodyPositionY", "Position Y Axis", "Meters", "m", -10, 10));
 			m_thDataTypes.DataTypes.Add(new AnimatTools.DataObjects.DataType("BodyPositionZ", "Position Z Axis", "Meters", "m", -10, 10));
 			m_thDataTypes.ID = "BodyPositionX";
-
-			m_aryCompatibleStimuli.Clear();
 		}
 
 		protected override void DrawReceptiveFields(AnimatTools.Forms.BodyPlan.Command.enumCommandMode cmCommand)

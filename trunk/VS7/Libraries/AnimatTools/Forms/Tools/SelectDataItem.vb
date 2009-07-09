@@ -250,7 +250,7 @@ Namespace Forms.Tools
                 Next
 
                 Dim doStim As DataObjects.ExternalStimuli.Stimulus
-                For Each deEntry As DictionaryEntry In Util.Application.Stimuli
+                For Each deEntry As DictionaryEntry In Util.Application.ProjectStimuli
                     doStim = DirectCast(deEntry.Value, DataObjects.ExternalStimuli.Stimulus)
 
                     If doStim.CanBeCharted Then

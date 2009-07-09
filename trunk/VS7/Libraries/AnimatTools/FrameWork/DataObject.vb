@@ -546,6 +546,10 @@ Namespace Framework
             Return Me.Name
         End Function
 
+        Public Overridable Sub InitAfterAppStart()
+
+        End Sub
+
 #End Region
 
 #Region " Events "

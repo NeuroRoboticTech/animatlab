@@ -364,11 +364,11 @@ Namespace DataObjects
                 Dim doStim As DataObjects.ExternalStimuli.Stimulus
 
                 If Util.ExportStimsInStandAloneSim Then
-                    If Util.Application.Stimuli.Count > 0 Then
+                    If Util.Application.ProjectStimuli.Count > 0 Then
                         oXml.AddChildElement("ExternalStimuli")
                         oXml.IntoElem()
 
-                        For Each deEntry As DictionaryEntry In Util.Application.Stimuli
+                        For Each deEntry As DictionaryEntry In Util.Application.ProjectStimuli
                             doStim = DirectCast(deEntry.Value, DataObjects.ExternalStimuli.Stimulus)
                             If doStim.Enabled Then
                                 doStim.SaveXml(oXml)

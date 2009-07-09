@@ -64,6 +64,12 @@ Namespace DataObjects.ExternalStimuli
             End Get
         End Property
 
+        Public Overrides ReadOnly Property ControlType() As String
+            Get
+                Return "BodyPartInput"
+            End Get
+        End Property
+
         Public Overrides ReadOnly Property WorkspaceNodeImageName() As String
             Get
                 Return "AnimatTools.BodyPartStimulus_Small.gif"

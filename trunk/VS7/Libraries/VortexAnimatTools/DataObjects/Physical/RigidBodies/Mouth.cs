@@ -63,7 +63,7 @@ namespace VortexAnimatTools.DataObjects.Physical.RigidBodies
 			Color = Color.LightBlue;
 			this.m_fRadius = 0.1f;
 
-      m_snMinimumFoodRadius = new ScaledNumber(this, "MinimumFoodRadius", 10, ScaledNumber.enumNumericScale.centi, "meters", "m");
+		    m_snMinimumFoodRadius = new ScaledNumber(this, "MinimumFoodRadius", 10, ScaledNumber.enumNumericScale.centi, "meters", "m");
 
 			m_thDataTypes.DataTypes.Clear();
 			m_thDataTypes.DataTypes.Add(new AnimatTools.DataObjects.DataType("BodyPositionX", "Position X Axis", "Meters", "m", -10, 10));
@@ -71,8 +71,6 @@ namespace VortexAnimatTools.DataObjects.Physical.RigidBodies
 			m_thDataTypes.DataTypes.Add(new AnimatTools.DataObjects.DataType("BodyPositionZ", "Position Z Axis", "Meters", "m", -10, 10));
 			m_thDataTypes.DataTypes.Add(new AnimatTools.DataObjects.DataType("EatingRate", "Eating Rate", "", "", 0, 100));
 			m_thDataTypes.ID = "EatingRate";
-
-			m_aryCompatibleStimuli.Clear();
 
 			this.ID = "MOUTH";
 		}

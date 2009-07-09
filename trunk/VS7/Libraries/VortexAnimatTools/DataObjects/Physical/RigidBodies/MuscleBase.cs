@@ -165,7 +165,7 @@ namespace VortexAnimatTools.DataObjects.Physical.RigidBodies
 			m_snMaxTension = new AnimatTools.Framework.ScaledNumber(this, "MaxTension", 100, AnimatTools.Framework.ScaledNumber.enumNumericScale.None, "Newtons", "N");
 			m_snMuscleLength = new AnimatTools.Framework.ScaledNumber(this, "MuscleLength", 0, AnimatTools.Framework.ScaledNumber.enumNumericScale.None, "Meters", "m");
 
-			RemoveCompatibleStimulus(new AnimatTools.DataObjects.ExternalStimuli.Force(null), false);
+			RemoveCompatibleStimulus("ForceInput");
 
 			AnimatTools.DataObjects.Physical.PhysicalStructure doStruct = null;
 			if(doParent != null && doParent is AnimatTools.DataObjects.Physical.BodyPart)
@@ -177,8 +177,12 @@ namespace VortexAnimatTools.DataObjects.Physical.RigidBodies
 			m_tpBodyPartType = typeof(VortexAnimatTools.DataObjects.Physical.RigidBodies.MuscleAttachment);
 			m_aryAttachmentPoints = new VortexAnimatTools.Collections.MuscleAttachments(this);
 			m_aryAttachmentPointIDs = new ArrayList();
+		}
 
-			AddCompatibleStimulus(new AnimatTools.DataObjects.ExternalStimuli.Enabler(null));
+		public override void InitAfterAppStart()
+		{
+			base.InitAfterAppStart();
+			AddCompatibleStimulusType("EnablerInput");
 		}
 
 		protected override void CreateBody()

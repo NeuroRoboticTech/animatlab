@@ -22,12 +22,12 @@ Neuron::Neuron()
 	m_bEnabled = TRUE;
 
 	m_fltExternalI = 0;			//Externally injected current
-	m_fltIntrinsicI = 0;
 	m_fltSynapticI = 0;
 	m_fltAdapterI = 0;
 	m_fltAdapterMemoryI = 0;
 	m_fltFiringFreq = 0;
-	m_fltVndisp = 0;
+	m_fltVrest = -0.060f;
+	m_fltVndisp = m_fltVrest;
 }
 
 Neuron::~Neuron()
@@ -40,18 +40,6 @@ try
 catch(...)
 {Std_TraceMsg(0, "Caught Error in desctructor of Neuron\r\n", "", -1, FALSE, TRUE);}
 }
-
-float Neuron::ExternalI()
-{return m_fltExternalI;}
-
-void Neuron::ExternalI(float fltVal)
-{m_fltExternalI=fltVal;}
-
-float Neuron::IntrinsicCurrent()
-{return m_fltIntrinsicI;}
-
-void Neuron::IntrinsicCurrent(float fltVal)
-{m_fltIntrinsicI = fltVal;}
 
 unsigned char Neuron::NeuronType()
 {return RUGULAR_NEURON;}
@@ -95,15 +83,11 @@ void Neuron::StepSimulation(Simulator *lpSim, Organism *lpOrganism, [*PROJECT_NA
 	}
 }
 
-float Neuron::CalculateIntrinsicCurrent(Simulator *lpSim, Organism *lpOrganism, [*PROJECT_NAME*]NeuralModule *lpModule, float fltInputCurrent)
-{return 0;}
-
 float Neuron::CalculateSynapticCurrent(Simulator *lpSim, Organism *lpOrganism, [*PROJECT_NAME*]NeuralModule *lpModule)
 {
 	unsigned char iSynapse, iCount;
 	float fltSynapticI=0;
 	Synapse *lpSynapse=NULL;
-	Neuron *lpNeuron=NULL;
 
 	iCount = m_arySynapses.GetSize();
 	for(iSynapse=0; iSynapse<iCount; iSynapse++)
@@ -111,18 +95,23 @@ float Neuron::CalculateSynapticCurrent(Simulator *lpSim, Organism *lpOrganism, [
 		lpSynapse = m_arySynapses[iSynapse];
 
 		if(lpSynapse->Enabled())
-		{
-			lpNeuron = lpModule->GetNeuron(lpSynapse->FromX(), lpSynapse->FromY(), lpSynapse->FromZ()); 
-			if(lpNeuron) 
-				fltSynapticI+= lpSynapse->CalculateCurrent(lpSim, lpOrganism, lpModule, this); 
-		}
+			fltSynapticI+= lpSynapse->CalculateCurrent(); 
 	}
 
 	return fltSynapticI;
 }
 
-void Neuron::Initialize(Simulator *lpSim, Organism *lpOrganism, [*PROJECT_NAME*]NeuralModule *lpModule)
+void Neuron::Initialize(Simulator *lpSim, Organism *lpOrganism, TestNeuralModule *lpModule)
 {
+	unsigned char iSynapse, iCount;
+	Synapse *lpSynapse=NULL;
+
+	iCount = m_arySynapses.GetSize();
+	for(iSynapse=0; iSynapse<iCount; iSynapse++)
+	{
+		lpSynapse = m_arySynapses[iSynapse];
+		lpSynapse->Initialize(lpSim, lpOrganism, lpModule); 
+	}
 } 
 
 void Neuron::AddExternalNodeInput(Simulator *lpSim, Structure *lpStructure, float fltInput)
@@ -135,8 +124,8 @@ float *Neuron::GetDataPointer(string strDataType)
 {
 	string strType = Std_CheckString(strDataType);
 
-	if(strType == "INTRINSICCURRENT")
-		return &m_fltIntrinsicI;
+	if(strType == "EXTERNALCURRENT")
+		return &m_fltExternalI;
 
 	if(strType == "EXTERNALCURRENT")
 		return &m_fltExternalI;
@@ -162,7 +151,7 @@ float *Neuron::GetDataPointer(string strDataType)
 long Neuron::CalculateSnapshotByteSize()
 {
 	//We need bytes for the internal state variables for this neuron.
-	return (sizeof(m_fltExternalI) + sizeof(m_fltIntrinsicI) + sizeof(m_fltSynapticI));
+	return (sizeof(m_fltExternalI) + sizeof(m_fltSynapticI) + sizeof(m_fltAdapterI));
 }
 
 void Neuron::SaveKeyFrameSnapshot(byte *aryBytes, long &lIndex)
@@ -170,11 +159,11 @@ void Neuron::SaveKeyFrameSnapshot(byte *aryBytes, long &lIndex)
 	memcpy((void *) (aryBytes+lIndex), (void *)&m_fltExternalI, sizeof(m_fltExternalI));
     lIndex += sizeof(m_fltExternalI);
 
-	memcpy((void *) (aryBytes+lIndex), (void *)&m_fltIntrinsicI, sizeof(m_fltIntrinsicI));
-    lIndex += sizeof(m_fltIntrinsicI);
-
 	memcpy((void *) (aryBytes+lIndex), (void *)&m_fltSynapticI, sizeof(m_fltSynapticI));
     lIndex += sizeof(m_fltSynapticI);
+
+	memcpy((void *) (aryBytes+lIndex), (void *)&m_fltAdapterI, sizeof(m_fltAdapterI));
+    lIndex += sizeof(m_fltAdapterI);
 }
 
 void Neuron::LoadKeyFrameSnapshot(byte *aryBytes, long &lIndex)
@@ -182,11 +171,11 @@ void Neuron::LoadKeyFrameSnapshot(byte *aryBytes, long &lIndex)
 	memcpy((void *)&m_fltExternalI, (void *) (aryBytes+lIndex), sizeof(m_fltExternalI));
     lIndex += sizeof(m_fltExternalI);
 
-	memcpy((void *)&m_fltIntrinsicI, (void *) (aryBytes+lIndex), sizeof(m_fltIntrinsicI));
-    lIndex += sizeof(m_fltIntrinsicI);
-
 	memcpy((void *)&m_fltSynapticI, (void *) (aryBytes+lIndex), sizeof(m_fltSynapticI));
     lIndex += sizeof(m_fltSynapticI);
+
+	memcpy((void *)&m_fltAdapterI, (void *) (aryBytes+lIndex), sizeof(m_fltAdapterI));
+    lIndex += sizeof(m_fltAdapterI);
 }
 
 void Neuron::Load(Simulator *lpSim, Structure *lpStructure, CStdXml &oXml)
@@ -199,8 +188,6 @@ void Neuron::Load(Simulator *lpSim, Structure *lpStructure, CStdXml &oXml)
 
 	m_strName = oXml.GetChildString("Name", "");
 	m_bEnabled = oXml.GetChildBool("Enabled", TRUE);
-
-	m_fltExternalI = oXml.GetChildFloat("ExternalI", 0);
 
 	//*** Begin Loading Synapses. *****
 	if(oXml.FindChildElement("Synapses", FALSE))
@@ -231,10 +218,11 @@ Synapse *Neuron::LoadSynapse(Simulator *lpSim, Structure *lpStructure, CStdXml &
 try
 {
 	oXml.IntoElem();  //Into Synapse Element
+	string strModuleName = oXml.GetChildString("ModuleName", "[*PROJECT_NAME*]");
 	strType = oXml.GetChildString("Type");
 	oXml.OutOfElem(); //OutOf Synapse Element
 
-	lpSynapse = dynamic_cast<Synapse *>(lpSim->CreateObject("[*PROJECT_NAME*]", "Synapse", strType));
+	lpSynapse = dynamic_cast<Synapse *>(lpSim->CreateObject(strModuleName, "Synapse", strType));
 	if(!lpSynapse)
 		THROW_TEXT_ERROR(Al_Err_lConvertingClassToType, Al_Err_strConvertingClassToType, "Synapse");
 
@@ -265,7 +253,6 @@ void Neuron::Save(Simulator *lpSim, Structure *lpStructure, CStdXml &oXml)
 
 
 	oXml.AddChildElement("NeuronType", NeuronType());
-	oXml.AddChildElement("ExternalI", m_fltExternalI);
 
 	//*** Begin Saving Synapses. *****
 	oXml.AddChildElement("Synapses");

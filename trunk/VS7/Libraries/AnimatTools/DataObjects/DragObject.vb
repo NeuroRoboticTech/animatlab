@@ -22,7 +22,6 @@ Namespace DataObjects
         Protected m_Image As System.Drawing.Image
         Protected m_DragImage As System.Drawing.Image
 
-        Protected m_aryCompatibleStimuli As New Collections.Stimuli(Me)
         Protected m_thDataTypes As New TypeHelpers.DataTypeID(Me)
         Protected m_thIncomingDataType As AnimatTools.DataObjects.DataType
 
@@ -74,7 +73,17 @@ Namespace DataObjects
         <Browsable(False)> _
         Public Overridable ReadOnly Property CompatibleStimuli() As Collections.Stimuli
             Get
-                Return m_aryCompatibleStimuli
+                Dim aryStims As New Collections.Stimuli(Me)
+
+                'Lets generate a list of the compatibleStimuli. We need to look through the list of stimuli in the application
+                'object and only pick the ones that have this in their list of compatibledataobjects.
+                For Each doStim As ExternalStimuli.Stimulus In Util.Application.ExternalStimuli
+                    If doStim.CompatibleDataObjects.Contains(Me.GetType.FullName) Then
+                        aryStims.Add(doStim)
+                    End If
+                Next
+
+                Return aryStims
             End Get
         End Property
 
@@ -153,33 +162,34 @@ Namespace DataObjects
 
         End Sub
 
-        Protected Overridable Sub AddCompatibleStimulus(ByVal doStimuli As DataObjects.ExternalStimuli.Stimulus)
-
-            'First lets make sure that there is not a link of this type already in the list.
-            For Each doItem As DataObjects.ExternalStimuli.Stimulus In m_aryCompatibleStimuli
-                If doItem.GetType() Is doStimuli.GetType() Then
-                    Throw New System.Exception("A stimulus of type '" & doItem.GetType().ToString() & "' has already been added to the compatible stimuli list.")
-                End If
-            Next
-
-            m_aryCompatibleStimuli.Add(doStimuli)
+        Protected Overridable Sub AddCompatibleStimulusType(ByVal strStimulusType As String)
+            AddCompatibleStimulusType(strStimulusType, Me)
         End Sub
 
-        Protected Overridable Sub RemoveCompatibleStimulus(ByVal doStimuli As DataObjects.ExternalStimuli.Stimulus, Optional ByVal bThrowError As Boolean = True)
+        Protected Overridable Sub AddCompatibleStimulusType(ByVal strStimulusType As String, ByVal doDataObject As Framework.DataObject)
 
-            'First lets make sure that there is not a link of this type already in the list.
-            Dim doFound As DataObjects.ExternalStimuli.Stimulus
-            For Each doItem As DataObjects.ExternalStimuli.Stimulus In m_aryCompatibleStimuli
-                If doItem.GetType() Is doStimuli.GetType() Then
-                    doFound = doItem
+            strStimulusType = strStimulusType.ToLower.Trim
+            For Each doStim As ExternalStimuli.Stimulus In Util.Application.ExternalStimuli
+                'If the control types match then add this object to the list for this stimulus
+                If doStim.ControlType.ToLower.Trim = strStimulusType Then
+                    doStim.AddCompatibleDataObject(doDataObject)
                 End If
             Next
 
-            If bThrowError AndAlso doFound Is Nothing Then
-                Throw New System.Exception("A stimulus of type '" & doStimuli.GetType().ToString() & "' could not be found to be removed.")
-            End If
+        End Sub
 
-            m_aryCompatibleStimuli.Remove(doFound)
+        Protected Overridable Sub RemoveCompatibleStimulus(ByVal strStimulusType As String)
+
+            strStimulusType = strStimulusType.ToLower.Trim
+            For Each doStim As ExternalStimuli.Stimulus In Util.Application.ExternalStimuli
+                'If the control types match then add this object to the list for this stimulus
+                If doStim.ControlType.ToLower.Trim = strStimulusType Then
+                    If Not doStim.CompatibleDataObjects Is Nothing AndAlso doStim.CompatibleDataObjects.Contains(Me.GetType.FullName) Then
+                        doStim.CompatibleDataObjects.Remove(Me.GetType.FullName)
+                    End If
+                End If
+            Next
+
         End Sub
 
         Public Overridable Function CreateDataItemTreeView(ByVal frmDataItem As Forms.Tools.SelectDataItem, ByVal tnParent As TreeNode, ByVal tpTemplatePartType As Type) As TreeNode

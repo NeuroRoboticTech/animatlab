@@ -18,6 +18,7 @@ namespace [*PROJECT_NAME*]
 			unsigned char m_iFromX;
 			unsigned char m_iFromY;
 			unsigned char m_iFromZ;
+			Neuron *m_lpNeuron;
 
 		public:
 			Synapse();
@@ -38,8 +39,9 @@ namespace [*PROJECT_NAME*]
 			unsigned char FromZ();
 			void FromZ(unsigned char iVal);
 
+			virtual void Initialize(Simulator *lpSim, Organism *lpOrganism, TestNeuralModule *lpModule);
 			virtual float *GetDataPointer(short iCompoundIndex, short iDataType);
-			virtual float CalculateCurrent(Simulator *lpSim, Organism *lpOrganism, [*PROJECT_NAME*]NeuralModule *lpModule, Neuron *lpNeuron); 
+			virtual float CalculateCurrent(); 
 
 			virtual void Load(Simulator *lpSim, Structure *lpStructure, Neuron *lpNeuron, CStdXml &oXml);
 			virtual void Save(Simulator *lpSim, Structure *lpStructure, Neuron *lpNeuron, CStdXml &oXml);

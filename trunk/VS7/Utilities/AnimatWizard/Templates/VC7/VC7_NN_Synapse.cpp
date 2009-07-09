@@ -23,6 +23,7 @@ Synapse::Synapse()
 	m_iFromX=0;
 	m_iFromY=0;
 	m_iFromZ=0;
+	m_lpNeuron = NULL;
 }
 
 Synapse::~Synapse()
@@ -67,10 +68,15 @@ float *Synapse::GetDataPointer(short iCompoundIndex, short iDataType)
 	return lpData;
 }
 
-float Synapse::CalculateCurrent(Simulator *lpSim, Organism *lpOrganism, [*PROJECT_NAME*]NeuralModule *lpModule, Neuron *lpNeuron)
+float Synapse::CalculateCurrent()
 {
 	return 0;
 }
+
+void Synapse::Initialize(Simulator *lpSim, Organism *lpOrganism, TestNeuralModule *lpModule)
+{
+	m_lpNeuron = lpModule->GetNeuron(m_iFromX, m_iFromY, m_iFromZ); 
+} 
 
 void Synapse::Load(Simulator *lpSim, Structure *lpStructure, Neuron *lpNeuron, CStdXml &oXml)
 {

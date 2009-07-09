@@ -242,7 +242,7 @@ Namespace Forms
                 m_nodeExternalStimuli.SelectedImageIndex = m_imgManager.GetImageIndex("AnimatTools.ExternalStimulus.gif")
 
                 Dim doStimulus As DataObjects.ExternalStimuli.Stimulus
-                For Each deEntry As DictionaryEntry In frmApplication.Stimuli
+                For Each deEntry As DictionaryEntry In frmApplication.ProjectStimuli
                     doStimulus = DirectCast(deEntry.Value, DataObjects.ExternalStimuli.Stimulus)
                     doStimulus.CreateWorkspaceTreeView(frmApplication.Simulation, Me)
                 Next
@@ -432,7 +432,7 @@ Namespace Forms
                     Next
 
                     Dim doStimulus As DataObjects.ExternalStimuli.Stimulus
-                    For Each deEntry As DictionaryEntry In Util.Application.Stimuli
+                    For Each deEntry As DictionaryEntry In Util.Application.ProjectStimuli
                         doStimulus = DirectCast(deEntry.Value, DataObjects.ExternalStimuli.Stimulus)
                         If doStimulus.WorkspaceTreeviewPopupMenu(tnSelected, ptPoint) Then
                             Return

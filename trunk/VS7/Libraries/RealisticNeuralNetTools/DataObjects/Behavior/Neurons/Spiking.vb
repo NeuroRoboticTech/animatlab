@@ -297,15 +297,6 @@ Namespace DataObjects.Behavior.Neurons
                 AddCompatibleLink(New SynapseTypes.SpikingChemical(Nothing))
                 AddCompatibleLink(New SynapseTypes.Electrical(Nothing))
 
-                AddCompatibleStimulus(New AnimatTools.DataObjects.ExternalStimuli.TonicCurrent(Nothing))
-                AddCompatibleStimulus(New AnimatTools.DataObjects.ExternalStimuli.RepetitiveCurrent(Nothing))
-                AddCompatibleStimulus(New AnimatTools.DataObjects.ExternalStimuli.BurstCurrent(Nothing))
-
-                Dim doTempParent As AnimatTools.Framework.DataObject = Nothing
-                Dim doStim As AnimatTools.DataObjects.ExternalStimuli.Stimulus = DirectCast(Util.LoadClass("VortexAnimatTools.dll", _
-                                            "VortexAnimatTools.DataObjects.ExternalStimuli.InverseMuscleDynamics", doTempParent), AnimatTools.DataObjects.ExternalStimuli.Stimulus)
-                AddCompatibleStimulus(doStim)
-
                 'Lets add the data types that this node understands.
                 'm_thDataTypes.DataTypes.Add("IntrinsicCurrent", "Intrinsic Current")
                 m_thDataTypes.DataTypes.Add(New AnimatTools.DataObjects.DataType("AdapterCurrent", "Adapter Current", "Amps", "A", -100, 100, ScaledNumber.enumNumericScale.nano, ScaledNumber.enumNumericScale.nano))
@@ -328,6 +319,12 @@ Namespace DataObjects.Behavior.Neurons
                 AnimatTools.Framework.Util.DisplayError(ex)
             End Try
 
+        End Sub
+
+        Public Overrides Sub InitAfterAppStart()
+            MyBase.InitAfterAppStart()
+            AddCompatibleStimulusType("Current")
+            AddCompatibleStimulusType("InverseMuscleCurrent")
         End Sub
 
         Public Overrides Function Clone(ByVal doParent As AnimatTools.Framework.DataObject, ByVal bCutData As Boolean, _

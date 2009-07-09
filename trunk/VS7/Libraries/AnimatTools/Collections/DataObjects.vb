@@ -98,5 +98,89 @@ Namespace Collections
 
     End Class 'DataObjects
 
+
+    Public Class SortedDataObjects
+        Inherits AnimatDictionaryBase
+
+        Public Sub New(ByVal doParent As Framework.DataObject)
+            MyBase.New(doParent)
+        End Sub
+
+        Default Public Property Item(ByVal key As [String]) As Framework.DataObject
+            Get
+                Return CType(Dictionary(key), Framework.DataObject)
+            End Get
+            Set(ByVal Value As Framework.DataObject)
+                Dictionary(key) = Value
+            End Set
+        End Property
+
+        Public ReadOnly Property Keys() As ICollection
+            Get
+                Return Dictionary.Keys
+            End Get
+        End Property
+
+        Public ReadOnly Property Values() As ICollection
+            Get
+                Return Dictionary.Values
+            End Get
+        End Property
+
+        Public Sub Add(ByVal key As [String], ByVal value As Framework.DataObject)
+            Dictionary.Add(key, value)
+            Me.IsDirty = True
+        End Sub 'Add
+
+        Public Function Contains(ByVal key As [String]) As Boolean
+            Return Dictionary.Contains(key)
+        End Function 'Contains
+
+        Public Sub Remove(ByVal key As [String])
+            Dictionary.Remove(key)
+            Me.IsDirty = True
+        End Sub 'Remove
+
+        Protected Overrides Sub OnInsert(ByVal key As [Object], ByVal value As [Object])
+            If Not key.GetType() Is Type.GetType("System.String") Then
+                Throw New ArgumentException("key must be of type String.", "key")
+            End If
+
+            If Not TypeOf (value) Is Framework.DataObject Then
+                Throw New ArgumentException("value must be of type Framework.DataObject.", "value")
+            End If
+
+            Dim diObject As Framework.DataObject = DirectCast(value, Framework.DataObject)
+
+        End Sub 'OnInsert
+
+        Protected Overrides Sub OnRemove(ByVal key As [Object], ByVal value As [Object])
+            If Not key.GetType() Is Type.GetType("System.String") Then
+                Throw New ArgumentException("key must be of type String.", "key")
+            End If
+        End Sub 'OnRemove
+
+        Protected Overrides Sub OnSet(ByVal key As [Object], ByVal oldValue As [Object], ByVal newValue As [Object])
+            If Not key.GetType() Is Type.GetType("System.String") Then
+                Throw New ArgumentException("key must be of type String.", "key")
+            End If
+
+            If Not TypeOf (newValue) Is Framework.DataObject Then
+                Throw New ArgumentException("newValue must be of type Framework.DataObject.", "newValue")
+            End If
+        End Sub 'OnSet
+
+        Protected Overrides Sub OnValidate(ByVal key As [Object], ByVal value As [Object])
+            If Not key.GetType() Is Type.GetType("System.String") Then
+                Throw New ArgumentException("key must be of type String.", "key")
+            End If
+
+            If Not TypeOf (value) Is Framework.DataObject Then
+                Throw New ArgumentException("value must be of type Framework.DataObject.", "value")
+            End If
+        End Sub 'OnValidate 
+
+    End Class
+
 End Namespace
 

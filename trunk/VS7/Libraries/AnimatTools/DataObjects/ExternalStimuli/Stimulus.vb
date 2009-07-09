@@ -38,6 +38,8 @@ Namespace DataObjects.ExternalStimuli
 
         Protected m_nodeStimulus As TreeNode
 
+        Protected m_aryCompatibleDataObjects As New Collections.SortedDataObjects(Me)
+
 #End Region
 
 #Region " Properties "
@@ -220,6 +222,12 @@ Namespace DataObjects.ExternalStimuli
 
         Public MustOverride ReadOnly Property StimulusClassType() As String
 
+        Public Overridable ReadOnly Property ControlType() As String
+            Get
+                Return Me.StimulusClassType
+            End Get
+        End Property
+
         Public Overrides Property IsDirty() As Boolean
             Get
                 Return MyBase.IsDirty
@@ -235,6 +243,13 @@ Namespace DataObjects.ExternalStimuli
                 End If
             End Set
         End Property
+
+        Public Overridable ReadOnly Property CompatibleDataObjects() As Collections.SortedDataObjects
+            Get
+                Return m_aryCompatibleDataObjects
+            End Get
+        End Property
+
 
 #Region " DragObject Properties "
 
@@ -402,13 +417,22 @@ Namespace DataObjects.ExternalStimuli
             If Not bAskToDelete OrElse (bAskToDelete AndAlso MessageBox.Show("Are you certain that you want to permanently delete this " & _
                                 "stimulus?", "Delete Stimulus", MessageBoxButtons.YesNo) = DialogResult.Yes) Then
                 If Not m_nodeStimulus Is Nothing Then m_nodeStimulus.Remove()
-                Util.Application.Stimuli.Remove(Me.ID)
+                Util.Application.ProjectStimuli.Remove(Me.ID)
                 RemoveFromSimulation()
             End If
 
         End Sub
 
         Public MustOverride Function SaveStimulusToXml() As String
+
+        Public Overridable Sub AddCompatibleDataObject(ByVal doObject As Framework.DataObject)
+
+            'If we do not already have this object as part of the list then add it.
+            If Not m_aryCompatibleDataObjects.Contains(doObject.GetType.FullName) Then
+                m_aryCompatibleDataObjects.Add(doObject.GetType.FullName, doObject)
+            End If
+
+        End Sub
 
 #Region " DragObject Methods "
 
@@ -418,8 +442,8 @@ Namespace DataObjects.ExternalStimuli
 
         Public Overrides Function FindDragObject(ByVal strStructureName As String, ByVal strDataItemID As String, Optional ByVal bThrowError As Boolean = True) As DataObjects.DragObject
 
-            If Util.Application.Stimuli.Contains(strDataItemID) Then
-                Dim doStimulus As DataObjects.DragObject = DirectCast(Util.Application.Stimuli(strDataItemID), DataObjects.DragObject)
+            If Util.Application.ProjectStimuli.Contains(strDataItemID) Then
+                Dim doStimulus As DataObjects.DragObject = DirectCast(Util.Application.ProjectStimuli(strDataItemID), DataObjects.DragObject)
                 Return doStimulus
             Else
                 Throw New System.Exception("No stimulus with the ID " & strDataItemID & " was found.")

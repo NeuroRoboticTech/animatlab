@@ -233,10 +233,14 @@ namespace VortexAnimatTools.DataObjects.Physical.Joints
 			m_snMaxAngle = new AnimatTools.Framework.ScaledNumber(this, "MaxRotationScaled", Util.RadiansToDegrees(m_fltMaxAngle), AnimatTools.Framework.ScaledNumber.enumNumericScale.None, "Degrees", "Deg");
 			m_snMaxTorque = new AnimatTools.Framework.ScaledNumber(this, "MaxTorque", 100, AnimatTools.Framework.ScaledNumber.enumNumericScale.None, "Newton-Meters", "Nm");
 			m_snMaxVelocity = new AnimatTools.Framework.ScaledNumber(this, "MaxVelocity", 100, AnimatTools.Framework.ScaledNumber.enumNumericScale.None, "rad/s", "rad/s");
+		}
 
-			AddCompatibleStimulus(new AnimatTools.DataObjects.ExternalStimuli.MotorVelocity(null));
-			AddCompatibleStimulus(new AnimatTools.DataObjects.ExternalStimuli.Enabler(null));
-			AddCompatibleStimulus(new VortexAnimatTools.DataObjects.ExternalStimuli.PositionClamp(null));
+		public override void InitAfterAppStart()
+		{
+			base.InitAfterAppStart();
+			AddCompatibleStimulusType("MotorVelocity");
+			AddCompatibleStimulusType("EnablerInput");
+			AddCompatibleStimulusType("PositionClamp");
 		}
 
 		protected override void CreateBody()

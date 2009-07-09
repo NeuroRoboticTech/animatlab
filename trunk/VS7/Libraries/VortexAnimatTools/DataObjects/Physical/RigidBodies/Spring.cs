@@ -185,8 +185,12 @@ namespace VortexAnimatTools.DataObjects.Physical.RigidBodies
 			m_thDataTypes.ID = "SpringLength";
 
 			m_thIncomingDataType = new AnimatTools.DataObjects.DataType("Enabled", "Enabled", "", "", 0, 1, ScaledNumber.enumNumericScale.None, ScaledNumber.enumNumericScale.None);
+		}
 
-			AddCompatibleStimulus(new AnimatTools.DataObjects.ExternalStimuli.Enabler(null));
+		public override void InitAfterAppStart()
+		{
+			base.InitAfterAppStart();
+			AddCompatibleStimulusType("EnablerInput");
 		}
 
 		public override void AddChildBody(AnimatTools.DataObjects.Physical.RigidBody rbChildBody)
