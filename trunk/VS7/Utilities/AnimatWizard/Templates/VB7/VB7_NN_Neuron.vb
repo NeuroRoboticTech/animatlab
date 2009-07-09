@@ -109,17 +109,6 @@ Namespace DataObjects.Behavior.Neurons
                 AddCompatibleLink(New AnimatTools.DataObjects.Behavior.Links.Adapter(Nothing))
                 AddCompatibleLink(New Synapses.[*SYNAPSE_NAME*](Nothing))
 
-				'This section associates the types of stimuli that can be applied to this neuron. 
-				'This way when a user adds a stimulus to this neuron it knows how to process it.
-                AddCompatibleStimulus(New AnimatTools.DataObjects.ExternalStimuli.TonicCurrent(Nothing))
-                AddCompatibleStimulus(New AnimatTools.DataObjects.ExternalStimuli.RepetitiveCurrent(Nothing))
-                AddCompatibleStimulus(New AnimatTools.DataObjects.ExternalStimuli.BurstCurrent(Nothing))
-
-                Dim doTempParent As AnimatTools.Framework.DataObject = Nothing
-                Dim doStim As AnimatTools.DataObjects.ExternalStimuli.Stimulus = DirectCast(Util.LoadClass("VortexAnimatTools.dll", _
-                                            "VortexAnimatTools.DataObjects.ExternalStimuli.InverseMuscleDynamics", doTempParent), AnimatTools.DataObjects.ExternalStimuli.Stimulus)
-                AddCompatibleStimulus(doStim)
-
                 'This section lists the type of data that this neuron makes visible to be charted.
                 m_thDataTypes.DataTypes.Add(New AnimatTools.DataObjects.DataType("IntrinsicCurrent", "Intrinsic Current", "Amps", "A", -100, 100, ScaledNumber.enumNumericScale.nano, ScaledNumber.enumNumericScale.nano))
                 m_thDataTypes.DataTypes.Add(New AnimatTools.DataObjects.DataType("ExternalCurrent", "External Current", "Amps", "A", -100, 100, ScaledNumber.enumNumericScale.nano, ScaledNumber.enumNumericScale.nano))
@@ -137,6 +126,11 @@ Namespace DataObjects.Behavior.Neurons
                 AnimatTools.Framework.Util.DisplayError(ex)
             End Try
 
+        End Sub
+
+        Public Overrides Sub InitAfterAppStart()
+            MyBase.InitAfterAppStart()
+            AddCompatibleStimulusType("Current")
         End Sub
 
         Public Overrides Function Clone(ByVal doParent As AnimatTools.Framework.DataObject, ByVal bCutData As Boolean, _

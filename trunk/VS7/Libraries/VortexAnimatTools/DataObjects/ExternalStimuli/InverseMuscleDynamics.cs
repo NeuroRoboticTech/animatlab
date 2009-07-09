@@ -36,6 +36,7 @@ namespace VortexAnimatTools.DataObjects.ExternalStimuli
 		public override String Description {get{return "This generates a stimulus current using the inverse dynamics of a muscle and a set predicted muscle length data. This is mainly for use in generating the gamma signal to drive a stretch receptor.";}}
 		public override String StimulusModuleName {get{return "";}}
 		public override String StimulusClassType {get{return "InverseMuscleCurrent";}}
+		public override String ControlType {get{return "Current";}}
 		public override string WorkspaceNodeAssemblyName {get{return "VortexAnimatTools";}}
 		public override string WorkspaceNodeImageName {get{return "VortexAnimatTools.Graphics.InverseDynamics.gif";}}
 

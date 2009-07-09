@@ -90,17 +90,6 @@ namespace TestTools.DataObjects.Behavior.Neurons
                 AddCompatibleLink(new AnimatTools.DataObjects.Behavior.Links.Adapter(null));
                 AddCompatibleLink(new Synapses.[*SYNAPSE_NAME*](null));
 
-				//This section associates the types of stimuli that can be applied to this neuron. 
-				//This way when a user adds a stimulus to this neuron it knows how to process it.
-                AddCompatibleStimulus(new AnimatTools.DataObjects.ExternalStimuli.TonicCurrent(null));
-                AddCompatibleStimulus(new AnimatTools.DataObjects.ExternalStimuli.RepetitiveCurrent(null));
-                AddCompatibleStimulus(new AnimatTools.DataObjects.ExternalStimuli.BurstCurrent(null));
-
-                AnimatTools.Framework.DataObject doTempParent = null;
-                AnimatTools.DataObjects.ExternalStimuli.Stimulus doStim = (AnimatTools.DataObjects.ExternalStimuli.Stimulus) Util.LoadClass("VortexAnimatTools.dll", 
-                                            "VortexAnimatTools.DataObjects.ExternalStimuli.InverseMuscleDynamics", doTempParent, true);
-                AddCompatibleStimulus(doStim);
-
                 //This section lists the type of data that this neuron makes visible to be charted.
                 m_thDataTypes.DataTypes.Add(new AnimatTools.DataObjects.DataType("IntrinsicCurrent", "Intrinsic Current", "Amps", "A", -100, 100, ScaledNumber.enumNumericScale.nano, ScaledNumber.enumNumericScale.nano));
                 m_thDataTypes.DataTypes.Add(new AnimatTools.DataObjects.DataType("ExternalCurrent", "External Current", "Amps", "A", -100, 100, ScaledNumber.enumNumericScale.nano, ScaledNumber.enumNumericScale.nano));
@@ -118,6 +107,12 @@ namespace TestTools.DataObjects.Behavior.Neurons
 			{
 				AnimatTools.Framework.Util.DisplayError(ex);
 			}
+		}
+
+		public override void InitAfterAppStart()
+		{
+			base.InitAfterAppStart();
+			AddCompatibleStimulusType("Current");
 		}
 
 		public override AnimatTools.Framework.DataObject Clone(AnimatTools.Framework.DataObject doParent, bool bCutData, AnimatTools.Framework.DataObject doRoot)
