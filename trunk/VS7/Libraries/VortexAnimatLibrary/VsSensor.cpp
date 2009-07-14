@@ -125,8 +125,8 @@ float *VsSensor::GetDataPointer(string strDataType)
 		lpData = &m_oAbsPosition.y;
 	else if(strType == "BODYPOSITIONZ")
 		lpData = &m_oAbsPosition.z;
-	else
-		THROW_TEXT_ERROR(Al_Err_lInvalidDataType, Al_Err_strInvalidDataType, "RigidBodyID: " + STR(m_strName) + "  DataType: " + strDataType);
+	//else
+	//	THROW_TEXT_ERROR(Al_Err_lInvalidDataType, Al_Err_strInvalidDataType, "RigidBodyID: " + STR(m_strName) + "  DataType: " + strDataType);
 
 	return lpData;
 }

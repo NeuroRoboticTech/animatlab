@@ -649,7 +649,7 @@ Public Class frmAnimatWizard
         Me.txtStimulusType.Name = "txtStimulusType"
         Me.txtStimulusType.Size = New System.Drawing.Size(176, 20)
         Me.txtStimulusType.TabIndex = 25
-        Me.txtStimulusType.Text = "TEST_STIM"
+        Me.txtStimulusType.Text = "TESTSTIMULUS"
         '
         'Label14
         '

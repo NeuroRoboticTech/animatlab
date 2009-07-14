@@ -56,6 +56,8 @@ namespace [*PROJECT_NAME*]Tools.DataObjects.Physical.RigidBodies
 
 				m_thDataTypes.DataTypes.Add(new AnimatTools.DataObjects.DataType("Tension", "Tension", "Newtons", "N", 0, 1000));
 				m_thDataTypes.DataTypes.Add(new AnimatTools.DataObjects.DataType("MuscleLength", "Muscle Length", "Meters", "m", 0, 1));
+				m_thDataTypes.DataTypes.Add(new AnimatTools.DataObjects.DataType("Tdot", "Change in Tension", "Newtons per second", "N/s", 0, 1000));
+				m_thDataTypes.DataTypes.Add(new AnimatTools.DataObjects.DataType("MembraneVoltage", "Membrane Voltage", "Volts", "V", -100, 100, ScaledNumber.enumNumericScale.milli, ScaledNumber.enumNumericScale.milli));
 				m_thDataTypes.ID = "Tension";
 
 				m_thIncomingDataType = new AnimatTools.DataObjects.DataType("MembraneVoltage", "Membrane Voltage", "Volts", "V", -100, 100, ScaledNumber.enumNumericScale.milli, ScaledNumber.enumNumericScale.milli);
