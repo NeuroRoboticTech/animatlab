@@ -120,22 +120,24 @@ Namespace DataObjects.Behavior
 
             'Lets loop through the nodes and links in the organism and add them to this module.
             Dim bnNode As DataObjects.Behavior.Node
-            For Each deEntry As DictionaryEntry In Me.Organism.BehavioralNodes
-                bnNode = DirectCast(deEntry.Value, DataObjects.Behavior.Node)
+            If Not Me.Organism Is Nothing Then
+                For Each deEntry As DictionaryEntry In Me.Organism.BehavioralNodes
+                    bnNode = DirectCast(deEntry.Value, DataObjects.Behavior.Node)
 
-                If Me.GetType Is bnNode.NeuralModuleType Then
-                    m_aryNodes.Add(bnNode.ID, bnNode)
-                End If
-            Next
+                    If Me.GetType Is bnNode.NeuralModuleType Then
+                        m_aryNodes.Add(bnNode.ID, bnNode)
+                    End If
+                Next
 
-            Dim blLink As DataObjects.Behavior.Link
-            For Each deEntry As DictionaryEntry In Me.Organism.BehavioralLinks
-                blLink = DirectCast(deEntry.Value, DataObjects.Behavior.Link)
+                Dim blLink As DataObjects.Behavior.Link
+                For Each deEntry As DictionaryEntry In Me.Organism.BehavioralLinks
+                    blLink = DirectCast(deEntry.Value, DataObjects.Behavior.Link)
 
-                If Me.GetType Is blLink.NeuralModuleType Then
-                    m_aryLinks.Add(blLink.ID, blLink)
-                End If
-            Next
+                    If Me.GetType Is blLink.NeuralModuleType Then
+                        m_aryLinks.Add(blLink.ID, blLink)
+                    End If
+                Next
+            End If
 
         End Sub
 

@@ -76,7 +76,7 @@ Public Class Form1
         Me.txtSimFiles.Name = "txtSimFiles"
         Me.txtSimFiles.Size = New System.Drawing.Size(480, 20)
         Me.txtSimFiles.TabIndex = 0
-        Me.txtSimFiles.Text = "C:\Projects\bin\Experiments\Program Modules\AnimatLab Job Submitter\bin\SimFiles"
+        Me.txtSimFiles.Text = "C:\Program Files\AnimatLabSDK\VS7\Utilities\SimRunner\SimFiles"
         '
         'btnSimFiles
         '
@@ -118,7 +118,7 @@ Public Class Form1
         Me.txtResultFiles.Name = "txtResultFiles"
         Me.txtResultFiles.Size = New System.Drawing.Size(480, 20)
         Me.txtResultFiles.TabIndex = 3
-        Me.txtResultFiles.Text = "C:\Projects\bin\Experiments\Program Modules\AnimatLab Job Submitter\bin\Results"
+        Me.txtResultFiles.Text = "C:\Program Files\AnimatLabSDK\VS7\Utilities\SimRunner\Results"
         '
         'lblCommonFiles
         '
@@ -143,8 +143,7 @@ Public Class Form1
         Me.txtCommonFiles.Name = "txtCommonFiles"
         Me.txtCommonFiles.Size = New System.Drawing.Size(480, 20)
         Me.txtCommonFiles.TabIndex = 6
-        Me.txtCommonFiles.Text = "C:\Projects\bin\Experiments\Program Modules\AnimatLab Job Submitter\bin\Common Fi" & _
-        "les"
+        Me.txtCommonFiles.Text = "C:\Program Files\AnimatLabSDK\VS7\Utilities\SimRunner\Common Files"
         '
         'lblSourceFiles
         '
@@ -169,7 +168,7 @@ Public Class Form1
         Me.txtSourceFiles.Name = "txtSourceFiles"
         Me.txtSourceFiles.Size = New System.Drawing.Size(480, 20)
         Me.txtSourceFiles.TabIndex = 9
-        Me.txtSourceFiles.Text = "C:\Projects\bin\Experiments\Program Modules\AnimatLab Job Submitter\bin"
+        Me.txtSourceFiles.Text = "C:\Program Files\AnimatLabSDK\VS7\bin"
         '
         'btnProcess
         '
