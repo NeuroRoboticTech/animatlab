@@ -1298,7 +1298,11 @@ namespace VortexAnimatTools.DataObjects.Physical.Joints
 		protected override void CloneInternal(AnimatTools.Framework.DataObject doOriginal, bool bCutData, AnimatTools.Framework.DataObject doRoot)
 		{
 			base.CloneInternal (doOriginal, bCutData, doRoot);
+			Joint_Clone(doOriginal, bCutData, doRoot);
+		}
 
+		protected void Joint_Clone(AnimatTools.Framework.DataObject doOriginal, bool bCutData, AnimatTools.Framework.DataObject doRoot)
+		{
 			Joint_DX doOrigBody = (Joint_DX) doOriginal;
 
 			m_d3dDevice = doOrigBody.m_d3dDevice;
@@ -1328,6 +1332,12 @@ namespace VortexAnimatTools.DataObjects.Physical.Joints
 			m_snXRotation = (AnimatTools.Framework.ScaledNumber) doOrigBody.m_snXRotation.Clone(this, bCutData, doRoot);
 			m_snYRotation = (AnimatTools.Framework.ScaledNumber) doOrigBody.m_snYRotation.Clone(this, bCutData, doRoot);
 			m_snZRotation = (AnimatTools.Framework.ScaledNumber) doOrigBody.m_snZRotation.Clone(this, bCutData, doRoot);
+		}
+
+		public override void SwapBodyPartCopy(AnimatTools.DataObjects.Physical.BodyPart doOriginal)
+		{
+			base.SwapBodyPartCopy(doOriginal);
+			Joint_Clone(doOriginal, false, null);
 		}
 
 		protected override void BuildProperties()

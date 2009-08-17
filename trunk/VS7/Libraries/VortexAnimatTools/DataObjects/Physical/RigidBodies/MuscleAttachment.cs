@@ -47,6 +47,7 @@ namespace VortexAnimatTools.DataObjects.Physical.RigidBodies
 		public override bool CanBeRootBody {get{return false;}}
 		public override bool UsesAJoint {get{return false;}}
 		public override bool AllowCollisions {get{return false;}}
+		public override bool HasDynamics {get{return false;}}
 
 		public override Microsoft.DirectX.Vector3 DxRotation
 		{
@@ -90,6 +91,22 @@ namespace VortexAnimatTools.DataObjects.Physical.RigidBodies
 				rbChildBody.Parent = rbParent;
 				rbParent.AddChildBody(rbChildBody);
 			}
+		}
+
+		public override AnimatTools.Collections.BodyParts SwapBodyPartList()
+		{
+			AnimatTools.Collections.BodyParts aryList = new AnimatTools.Collections.BodyParts(null);
+
+			foreach(AnimatTools.DataObjects.Physical.RigidBody doPart in Util.Application.RigidBodyTypes)
+			{
+				if(Util.IsTypeOf(doPart.GetType(), typeof(VortexAnimatTools.DataObjects.Physical.RigidBodies.Sensor), false))
+					aryList.Add(doPart);
+			}
+			aryList.Add(new VortexAnimatTools.DataObjects.Physical.RigidBodies.Mouth(null));
+			aryList.Add(new VortexAnimatTools.DataObjects.Physical.RigidBodies.MuscleAttachment(null));
+			aryList.Add(new VortexAnimatTools.DataObjects.Physical.RigidBodies.Stomach(null));
+
+			return aryList;
 		}
 
 		protected override void BuildProperties()

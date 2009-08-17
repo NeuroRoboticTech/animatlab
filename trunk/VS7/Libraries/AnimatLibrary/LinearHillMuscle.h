@@ -79,6 +79,9 @@ namespace AnimatLibrary
 				///The length of the SE section of the muscle. The resting length is one half the total muscle length
 				float m_fltSeLength;
 
+				///The displacement of the SE section of the muscle.
+				float m_fltSeDisplacement;
+
 				///The length of the PE section of the muscle. The resting length is one half the total muscle length
 				float m_fltPeLength;
 

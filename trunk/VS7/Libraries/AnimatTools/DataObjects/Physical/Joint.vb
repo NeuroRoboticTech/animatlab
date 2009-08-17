@@ -220,6 +220,36 @@ Namespace DataObjects.Physical
             m_bSelected = False
         End Sub
 
+        Public Overrides Function SwapBodyPartList() As AnimatTools.Collections.BodyParts
+
+            'Go through the list and only use body parts that allow dynamics
+            Dim aryPartList As New AnimatTools.Collections.BodyParts(Nothing)
+            For Each doPart As DataObjects.Physical.BodyPart In Util.Application.JointTypes
+                If doPart.HasDynamics Then
+                    aryPartList.Add(doPart)
+                End If
+            Next
+
+            Return aryPartList
+        End Function
+
+        Public Overrides Sub SwapBodyPartCopy(ByVal doOriginal As AnimatTools.DataObjects.Physical.BodyPart)
+
+            Dim doExisting As AnimatTools.DataObjects.Physical.Joint = DirectCast(doOriginal, AnimatTools.DataObjects.Physical.Joint)
+
+            Me.Name = doExisting.Name
+            Me.ID = doExisting.ID
+            Me.Description = doExisting.Description
+            m_bpBodyNode = doOriginal.BodyPlanTreeNode
+
+            Me.ParentStructure.BodyEditor.HierarchyBar.ImageManager.AddImage(Me.ImageName, Me.Image)
+
+            m_bpBodyNode.ImageIndex = Me.ParentStructure.BodyEditor.HierarchyBar.ImageManager.GetImageIndex(Me.ImageName)
+            m_bpBodyNode.SelectedImageIndex = Me.ParentStructure.BodyEditor.HierarchyBar.ImageManager.GetImageIndex(Me.ImageName)
+            m_bpBodyNode.Tag = Me
+
+        End Sub
+
         Protected Overrides Sub BuildProperties()
             MyBase.BuildProperties()
 

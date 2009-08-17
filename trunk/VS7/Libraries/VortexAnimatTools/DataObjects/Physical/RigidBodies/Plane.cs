@@ -29,6 +29,7 @@ namespace VortexAnimatTools.DataObjects.Physical.RigidBodies
 		public override System.Type PartType {get{return typeof(VortexAnimatTools.DataObjects.Physical.RigidBodies.Plane);}}
 		public override bool AllowUserAdd {get{return false;}}
 		public override bool CanBeRootBody {get{return false;}}
+		public override bool HasDynamics {get{return false;}}
 
 		public override float YWorldLocation
 		{

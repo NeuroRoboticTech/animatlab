@@ -366,7 +366,7 @@
                 />
                 <File
                     RelPath = "Forms\BodyPlan\BodyViewD3D.cs"
-                    SubType = "Code"
+                    SubType = "Form"
                     BuildAction = "Compile"
                 />
                 <File

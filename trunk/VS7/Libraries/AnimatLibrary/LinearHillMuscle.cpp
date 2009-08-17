@@ -95,6 +95,7 @@ LinearHillMuscle::LinearHillMuscle()
 	m_fltMinPeLength = 0;
 	m_fltIbDischargeConstant = 100;
 	m_fltIbRate = 0;
+	m_fltSeDisplacement = 0;
 
 	m_fltSeLPrev = 0;
 	m_fltPeLPrev = 0;
@@ -235,6 +236,9 @@ void LinearHillMuscle::CalculateTension(Simulator *lpSim)
 	m_fltPeLPrev = m_fltPeLength;
 
 	m_fltSeLength = m_fltSeRestLength + (m_fltTension/m_fltKse);
+	m_fltSeDisplacement = m_fltSeLength - m_fltSeRestLength;
+	if(m_fltSeDisplacement < 0) m_fltSeDisplacement = 0;
+
 	m_fltPeLength = m_fltMuscleLength - m_fltSeLength;
 	if(m_fltPeLength < m_fltMinPeLength)
 	{
@@ -333,6 +337,8 @@ float *LinearHillMuscle::GetDataPointer(string strDataType)
 		lpData = &m_fltSeLength;
 	else if(strType == "PELENGTH")
 		lpData = &m_fltPeLength;
+	else if(strType == "SEDISPLACEMENT")
+		lpData = &m_fltSeDisplacement;
 	else if(strType == "IB")
 		lpData = &m_fltIbRate;
 	else if(strType == "TL")

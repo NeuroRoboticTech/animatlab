@@ -180,7 +180,11 @@ Namespace Forms.BodyPlan
                                                       m_beEditor.SmallImages.GetImageIndex("AnimatTools.ExternalStimulus.gif"), _
                                                       New EventHandler(AddressOf Me.OnAddStimulus))
 
-                    popup.MenuCommands.AddRange(New MenuCommand() {mcSep3, mcAddStimulus})
+                    Dim mcSwapPart As New MenuCommand("Swap Part", "SwapPart", Util.Application.SmallImages.ImageList, _
+                                                 Util.Application.SmallImages.GetImageIndex("AnimatTools.Swap.gif"), _
+                                                 New EventHandler(AddressOf Me.OnSwapBodyPart))
+
+                    popup.MenuCommands.AddRange(New MenuCommand() {mcSep3, mcAddStimulus, mcSwapPart})
                 End If
             End If
 
@@ -206,6 +210,8 @@ Namespace Forms.BodyPlan
 
             Me.Invalidate()
         End Sub
+
+        Public MustOverride Sub SwapBodyPart(ByVal doExistingPart As AnimatTools.DataObjects.Physical.BodyPart)
 
 #End Region
 
@@ -237,6 +243,12 @@ Namespace Forms.BodyPlan
 
         Protected Sub OnAddBody(ByVal sender As Object, ByVal e As System.EventArgs)
             Me.Editor.OnAddBody(sender, e)
+        End Sub
+
+        Protected Sub OnSwapBodyPart(ByVal sender As Object, ByVal e As System.EventArgs)
+            If Not Me.Editor.PropertiesBar.SelectedPart Is Nothing AndAlso Me.Editor.PropertiesBar.SelectedParts.Count = 1 Then
+                Me.SwapBodyPart(Me.Editor.PropertiesBar.SelectedPart)
+            End If
         End Sub
 
         Protected Sub OnSelectReceptiveFields(ByVal sender As Object, ByVal e As System.EventArgs)

@@ -49,6 +49,7 @@ namespace VortexAnimatTools.DataObjects.Physical.RigidBodies
 		public override bool CanBeRootBody {get{return false;}}
 		public override bool UsesAJoint {get{return false;}}
 		public override bool AllowCollisions {get{return false;}}
+		public override bool HasDynamics {get{return false;}}
 
 		public virtual AnimatTools.TypeHelpers.LinkedBodyPart PrimaryAttachment
 		{
@@ -248,6 +249,48 @@ namespace VortexAnimatTools.DataObjects.Physical.RigidBodies
 		public override Vector3 FindPointOnSurface(Vector3 v3Start, Vector3 v3Direction)
 		{
 			return new Vector3(0,0,0);
+		}
+
+		public override AnimatTools.Collections.BodyParts SwapBodyPartList()
+		{
+			AnimatTools.Collections.BodyParts aryList = new AnimatTools.Collections.BodyParts(null);
+
+			foreach(AnimatTools.DataObjects.Physical.RigidBody doPart in Util.Application.RigidBodyTypes)
+			{
+				if(Util.IsTypeOf(doPart.GetType(), typeof(VortexAnimatTools.DataObjects.Physical.RigidBodies.MuscleBase), false))
+					aryList.Add(doPart);
+			}
+			aryList.Add(new VortexAnimatTools.DataObjects.Physical.RigidBodies.Spring(null));
+
+			return aryList;
+		}
+
+		public override void SwapBodyPartCopy(AnimatTools.DataObjects.Physical.BodyPart doOriginal)
+		{
+			base.SwapBodyPartCopy(doOriginal);
+
+			if(Util.IsTypeOf(doOriginal.GetType(), typeof(VortexAnimatTools.DataObjects.Physical.RigidBodies.Spring), false))
+			{
+				VortexAnimatTools.DataObjects.Physical.RigidBodies.Spring msOrig = (VortexAnimatTools.DataObjects.Physical.RigidBodies.Spring) doOriginal;
+
+				m_thPrimaryAttachment = msOrig.m_thPrimaryAttachment;
+				m_thSecondaryAttachment = msOrig.m_thSecondaryAttachment;
+				m_snNaturalLength = msOrig.m_snNaturalLength;
+				m_snStiffness = msOrig.m_snStiffness;
+				m_snDamping = msOrig.m_snDamping;
+				m_snSpringLength = msOrig.m_snSpringLength;
+				m_fRadius = msOrig.m_fRadius;
+			}
+			else if(Util.IsTypeOf(doOriginal.GetType(), typeof(VortexAnimatTools.DataObjects.Physical.RigidBodies.MuscleBase), false))
+			{
+				VortexAnimatTools.DataObjects.Physical.RigidBodies.MuscleBase msOrig = (VortexAnimatTools.DataObjects.Physical.RigidBodies.MuscleBase) doOriginal;
+
+				if(msOrig.AttachmentPoints.Count > 0 && m_thPrimaryAttachment != null)
+					m_thPrimaryAttachment.BodyPart = msOrig.AttachmentPoints[0];
+
+				if(msOrig.AttachmentPoints.Count > 1 && m_thSecondaryAttachment != null)
+					m_thSecondaryAttachment.BodyPart = msOrig.AttachmentPoints[1];
+			}
 		}
 
 		protected override void BuildProperties()

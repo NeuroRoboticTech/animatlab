@@ -31,7 +31,8 @@ namespace VortexAnimatTools.DataObjects.Physical.RigidBodies
 		public override System.Type PartType {get{return typeof(VortexAnimatTools.DataObjects.Physical.RigidBodies.CylinderContactSensor);}}
 		public override bool CanBeRootBody {get{return false;}}
 		public override bool UsesAJoint {get{return false;}}
-		public override bool AllowCollisions {get{return true;}}
+		public override bool AllowCollisions {get{return false;}}
+		public override bool HasDynamics {get{return false;}}
 
 		#endregion
 
@@ -102,6 +103,13 @@ namespace VortexAnimatTools.DataObjects.Physical.RigidBodies
 			bnPart.CloneInternal(this, bCutData, doRoot);
 			if(doRoot != null && doRoot == this) bnPart.AfterClone(this, bCutData, doRoot, bnPart);
 			return bnPart;
+		}
+		
+		public override AnimatTools.Collections.BodyParts SwapBodyPartList()
+		{
+			AnimatTools.Collections.BodyParts aryList = new AnimatTools.Collections.BodyParts(null);
+			aryList.Add(new VortexAnimatTools.DataObjects.Physical.RigidBodies.BoxContactSensor(null));
+			return aryList;
 		}
 
 		#endregion

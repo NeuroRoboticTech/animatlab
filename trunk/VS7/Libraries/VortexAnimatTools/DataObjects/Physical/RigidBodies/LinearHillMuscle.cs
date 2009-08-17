@@ -146,6 +146,7 @@ namespace VortexAnimatTools.DataObjects.Physical.RigidBodies
 			m_thDataTypes.DataTypes.Add(new AnimatTools.DataObjects.DataType("Tdot", "Change in Tension", "Newtons per second", "N/s", 0, 1000));
 			m_thDataTypes.DataTypes.Add(new AnimatTools.DataObjects.DataType("MuscleLength", "Muscle Length", "Meters", "m", 0, 1));
 			m_thDataTypes.DataTypes.Add(new AnimatTools.DataObjects.DataType("SeLength", "Se Length", "Meters", "m", 0, 1));
+			m_thDataTypes.DataTypes.Add(new AnimatTools.DataObjects.DataType("SeDisplacement", "Se Displacement", "Meters", "m", 0, 1));
 			m_thDataTypes.DataTypes.Add(new AnimatTools.DataObjects.DataType("PeLength", "Pe Length", "Meters", "m", 0, 1));
 			m_thDataTypes.DataTypes.Add(new AnimatTools.DataObjects.DataType("A", "A", "Newtons", "N", 0, 1000));
 			m_thDataTypes.DataTypes.Add(new AnimatTools.DataObjects.DataType("Activation", "Activation", "", "", 0, 1000));

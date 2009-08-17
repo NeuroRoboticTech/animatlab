@@ -1016,6 +1016,16 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "Forms\BodyPlan\SwapParts.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Forms\BodyPlan\SwapParts.resx"
+                    DependentUpon = "SwapParts.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "Forms\ExternalStimuli\SelectStimulusType.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
@@ -1619,6 +1629,10 @@
                 />
                 <File
                     RelPath = "Graphics\Structures.gif"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Graphics\Swap.gif"
                     BuildAction = "EmbeddedResource"
                 />
                 <File

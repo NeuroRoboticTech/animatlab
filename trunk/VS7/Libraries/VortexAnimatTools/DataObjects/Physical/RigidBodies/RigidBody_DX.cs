@@ -2306,6 +2306,11 @@ namespace VortexAnimatTools.DataObjects.Physical.RigidBodies
 		{
 			base.CloneInternal (doOriginal, bCutData, doRoot);
 
+			RigidBody_Clone(doOriginal, bCutData, doRoot);
+		}
+
+		protected void RigidBody_Clone(AnimatTools.Framework.DataObject doOriginal, bool bCutData, AnimatTools.Framework.DataObject doRoot)
+		{
 			RigidBody_DX doOrigBody = (RigidBody_DX) doOriginal;
 
 			m_d3dDevice = doOrigBody.m_d3dDevice;
@@ -2333,6 +2338,11 @@ namespace VortexAnimatTools.DataObjects.Physical.RigidBodies
 			m_snZRotation = (AnimatTools.Framework.ScaledNumber) doOrigBody.m_snZRotation.Clone(this, bCutData, doRoot);
 		}
 
+		public override void SwapBodyPartCopy(AnimatTools.DataObjects.Physical.BodyPart doOriginal)
+		{
+			base.SwapBodyPartCopy(doOriginal);
+			RigidBody_Clone(doOriginal, false, null);
+		}
 
 		#endregion
 	

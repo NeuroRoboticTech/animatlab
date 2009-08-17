@@ -241,7 +241,7 @@ Namespace DataObjects.Physical
         Public MustOverride Property PartPositionInfo() As PartPositionInfo
         Public MustOverride Property PartPositionState() As PartPositionState
 
-        Public Property DistanceFromCamera() As Single
+        Public Overridable Property DistanceFromCamera() As Single
             Get
                 Return Me.m_fDistFromCamera
             End Get
@@ -250,13 +250,19 @@ Namespace DataObjects.Physical
             End Set
         End Property
 
-        Public Property BoundingBoxVolume() As Single
+        Public Overridable Property BoundingBoxVolume() As Single
             Get
                 Return Me.m_fBoundingBoxVolume
             End Get
             Set(ByVal Value As Single)
                 Me.m_fBoundingBoxVolume = Value
             End Set
+        End Property
+
+        Public Overridable ReadOnly Property HasDynamics() As Boolean
+            Get
+                Return True
+            End Get
         End Property
 
 #End Region
@@ -409,6 +415,11 @@ Namespace DataObjects.Physical
                                                          New EventHandler(AddressOf Me.OnAddStimulus))
                     popup.MenuCommands.Add(mcAddStimulus)
                 End If
+
+                Dim mcSwapPart As New MenuCommand("Swap Part", "SwapPart", Util.Application.SmallImages.ImageList, _
+                                             Util.Application.SmallImages.GetImageIndex("AnimatTools.Swap.gif"), _
+                                             New EventHandler(AddressOf Me.OnSwapBodyPart))
+                popup.MenuCommands.Add(mcSwapPart)
 
                 Dim mcCut As New MenuCommand("Cut", "Cut", Util.Application.SmallImages.ImageList, _
                                              Util.Application.SmallImages.GetImageIndex("AnimatTools.Cut.gif"), _
@@ -581,6 +592,9 @@ Namespace DataObjects.Physical
         End Sub
 
         Public MustOverride Sub Draw(ByVal cmCommand As AnimatTools.Forms.BodyPlan.Command.enumCommandMode)
+        Public MustOverride Function SwapBodyPartList() As AnimatTools.Collections.BodyParts
+        Public MustOverride Sub SwapBodyPartCopy(ByVal doOriginal As AnimatTools.DataObjects.Physical.BodyPart)
+
 
 #End Region
 
@@ -617,6 +631,16 @@ Namespace DataObjects.Physical
 
         End Sub
 
+        Protected Overridable Sub OnSwapBodyPart(ByVal sender As Object, ByVal e As System.EventArgs)
+
+            Try
+                Me.ParentStructure.BodyEditor.BodyView.SwapBodyPart(Me)
+            Catch ex As System.Exception
+                AnimatTools.Framework.Util.DisplayError(ex)
+            End Try
+
+        End Sub
+
         Protected Overridable Sub OnCopyBodyPart(ByVal sender As Object, ByVal e As System.EventArgs)
 
             Try
@@ -626,6 +650,7 @@ Namespace DataObjects.Physical
             End Try
 
         End Sub
+
         Protected Overridable Sub OnCutBodyPart(ByVal sender As Object, ByVal e As System.EventArgs)
 
             Try

@@ -460,6 +460,7 @@ Namespace Forms.BodyPlan
                 m_mgrSmallImages.AddImage(myAssembly, "AnimatTools.PrintPreview.gif")
                 m_mgrSmallImages.AddImage(myAssembly, "AnimatTools.Print.gif")
                 m_mgrSmallImages.AddImage(myAssembly, "AnimatTools.Export.gif")
+                m_mgrSmallImages.AddImage(myAssembly, "AnimatTools.Swap.gif")
                 m_mgrSmallImages.AddImage(myAssembly, "AnimatTools.Cut.gif")
                 m_mgrSmallImages.AddImage(myAssembly, "AnimatTools.Copy.gif")
                 m_mgrSmallImages.AddImage(myAssembly, "AnimatTools.Paste.gif")

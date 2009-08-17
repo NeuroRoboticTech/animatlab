@@ -44,6 +44,7 @@ namespace VortexAnimatTools.DataObjects.Physical.RigidBodies
 		public override bool CanBeRootBody {get{return false;}}
 		public override bool UsesAJoint {get{return false;}}
 		public override bool AllowCollisions {get{return false;}}
+		public override bool HasDynamics {get{return false;}}
 
 		public virtual VortexAnimatTools.Collections.MuscleAttachments AttachmentPoints
 		{
@@ -318,6 +319,66 @@ namespace VortexAnimatTools.DataObjects.Physical.RigidBodies
 			return new Vector3(0,0,0);
 		}
 
+		public override AnimatTools.Collections.BodyParts SwapBodyPartList()
+		{
+			AnimatTools.Collections.BodyParts aryList = new AnimatTools.Collections.BodyParts(null);
+
+			foreach(AnimatTools.DataObjects.Physical.RigidBody doPart in Util.Application.RigidBodyTypes)
+			{
+				if(Util.IsTypeOf(doPart.GetType(), typeof(VortexAnimatTools.DataObjects.Physical.RigidBodies.MuscleBase), false))
+					aryList.Add(doPart);
+			}
+			aryList.Add(new VortexAnimatTools.DataObjects.Physical.RigidBodies.Spring(null));
+
+			return aryList;
+		}
+
+		public override void SwapBodyPartCopy(AnimatTools.DataObjects.Physical.BodyPart doOriginal)
+		{
+			base.SwapBodyPartCopy(doOriginal);
+
+//			AnimatTools.DataObjects.Physical.RigidBody rbOrig = (AnimatTools.DataObjects.Physical.RigidBody) doOriginal;
+//
+//            this.Name = rbOrig.Name;
+//            this.ID = rbOrig.ID;
+//            this.Alpha = rbOrig.Alpha;
+//            this.Color = rbOrig.Color;
+//            this.Description = rbOrig.Description;
+//            this.Transparency = rbOrig.Transparency;
+//            this.Visible = rbOrig.Visible;
+
+			if(Util.IsTypeOf(doOriginal.GetType(), typeof(VortexAnimatTools.DataObjects.Physical.RigidBodies.MuscleBase), false))
+			{
+				VortexAnimatTools.DataObjects.Physical.RigidBodies.MuscleBase msOrig = (VortexAnimatTools.DataObjects.Physical.RigidBodies.MuscleBase) doOriginal;
+
+				m_aryAttachmentPoints.Clear();
+				foreach(MuscleAttachment doAttach in  msOrig.AttachmentPoints)
+				{
+					AnimatTools.DataObjects.Physical.BodyPart doBase = this.ParentStructure.FindBodyPart(doAttach.ID, true);
+					if(doBase != null)
+						m_aryAttachmentPoints.Add((MuscleAttachment) doBase);
+				}
+
+				m_snMaxTension = msOrig.m_snMaxTension;
+				m_snMuscleLength = msOrig.m_snMuscleLength;
+				m_StimTension = msOrig.m_StimTension;
+				m_LengthTension = msOrig.m_LengthTension;
+				m_VelocityTension = msOrig.m_VelocityTension;
+			}
+			else if(Util.IsTypeOf(doOriginal.GetType(), typeof(VortexAnimatTools.DataObjects.Physical.RigidBodies.Spring), false))
+			{
+				VortexAnimatTools.DataObjects.Physical.RigidBodies.Spring msOrig = (VortexAnimatTools.DataObjects.Physical.RigidBodies.Spring) doOriginal;
+
+				m_aryAttachmentPoints.Clear();
+				if(msOrig.PrimaryAttachment != null && msOrig.PrimaryAttachment.BodyPart != null)
+					m_aryAttachmentPoints.Add((VortexAnimatTools.DataObjects.Physical.RigidBodies.MuscleAttachment) msOrig.PrimaryAttachment.BodyPart);
+
+				if(msOrig.SecondaryAttachment != null && msOrig.SecondaryAttachment.BodyPart != null)
+					m_aryAttachmentPoints.Add((VortexAnimatTools.DataObjects.Physical.RigidBodies.MuscleAttachment) msOrig.SecondaryAttachment.BodyPart);
+			}
+
+		}
+
 		protected override void BuildProperties()
 		{
 			m_Properties.Properties.Add(new Crownwood.Magic.Controls.PropertySpec("Name", m_strName.GetType(), "Name", 
@@ -416,7 +477,7 @@ namespace VortexAnimatTools.DataObjects.Physical.RigidBodies
 		{
 			AnimatTools.DataObjects.Physical.PhysicalStructure doStruct = this.ParentStructure;
 			VortexAnimatTools.DataObjects.Physical.RigidBodies.MuscleAttachment doAttach;
-			m_aryAttachmentPoints.Clear();
+			//m_aryAttachmentPoints.Clear();
 			foreach(string strID in m_aryAttachmentPointIDs)
 			{
 				doAttach = (VortexAnimatTools.DataObjects.Physical.RigidBodies.MuscleAttachment) doStruct.FindBodyPart(strID, true);

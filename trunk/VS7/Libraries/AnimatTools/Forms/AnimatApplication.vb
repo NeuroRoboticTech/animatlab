@@ -1355,6 +1355,7 @@ Namespace Forms
             m_mgrSmallImages.AddImage(myAssembly, "AnimatTools.Copy.gif")
             m_mgrSmallImages.AddImage(myAssembly, "AnimatTools.Paste.gif")
             m_mgrSmallImages.AddImage(myAssembly, "AnimatTools.preference.gif")
+            m_mgrSmallImages.AddImage(myAssembly, "AnimatTools.Swap.gif")
 
             Me.Icon = m_mgrSmallImages.LoadIcon(myAssembly, "AnimatTools.Crayfish.ico")
 

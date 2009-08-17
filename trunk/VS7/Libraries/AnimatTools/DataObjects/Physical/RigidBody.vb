@@ -1029,6 +1029,49 @@ Namespace DataObjects.Physical
 
         End Sub
 
+        Public Overrides Function SwapBodyPartList() As AnimatTools.Collections.BodyParts
+
+            'Go through the list and only use body parts that allow dynamics
+            Dim aryPartList As New AnimatTools.Collections.BodyParts(Nothing)
+            For Each doPart As DataObjects.Physical.BodyPart In Util.Application.RigidBodyTypes
+                If doPart.HasDynamics Then
+                    aryPartList.Add(doPart)
+                End If
+            Next
+
+            Return aryPartList
+        End Function
+
+        Public Overrides Sub SwapBodyPartCopy(ByVal doOriginal As AnimatTools.DataObjects.Physical.BodyPart)
+
+            Dim doExisting As AnimatTools.DataObjects.Physical.RigidBody = DirectCast(doOriginal, AnimatTools.DataObjects.Physical.RigidBody)
+
+            Me.Name = doExisting.Name
+            Me.ID = doExisting.ID
+            Me.Density = doExisting.Density
+            Me.Alpha = doExisting.Alpha
+            Me.Color = doExisting.Color
+            Me.Ca = doExisting.Ca
+            Me.Car = doExisting.Car
+            Me.Cd = doExisting.Cd
+            Me.Cdr = doExisting.Cdr
+            Me.Description = doExisting.Description
+            Me.FoodEnergyContent = doExisting.FoodEnergyContent
+            Me.FoodQuantity = doExisting.FoodQuantity
+            Me.FoodReplenishRate = doExisting.FoodReplenishRate
+            Me.FoodSource = doExisting.FoodSource
+            Me.Freeze = doExisting.Freeze
+            Me.IsRoot = doExisting.IsRoot
+            Me.MaxFoodQuantity = doExisting.MaxFoodQuantity
+            Me.OdorSources = doExisting.OdorSources
+            Me.ReceptiveCurrentGain = doExisting.ReceptiveCurrentGain
+            Me.ReceptiveFieldDistance = doExisting.ReceptiveFieldDistance
+            Me.Texture = doExisting.Texture
+            Me.Transparency = doExisting.Transparency
+            Me.Visible = doExisting.Visible
+
+        End Sub
+
         Public Overrides Sub InitializeAfterLoad(ByRef dsSim As Simulation, ByRef doStructure As DataObjects.Physical.PhysicalStructure)
 
             If Not m_JointToParent Is Nothing Then
