@@ -1,7 +1,7 @@
 <VisualStudioProject>
     <VisualBasic
         ProjectType = "Local"
-        ProductVersion = "7.10.3077"
+        ProductVersion = "7.10.6030"
         SchemaVersion = "2.0"
         ProjectGuid = "{45227561-EC56-46E0-9395-E1D86A7F3464}"
     >
@@ -1017,7 +1017,7 @@
                 />
                 <File
                     RelPath = "Forms\BodyPlan\SwapParts.vb"
-                    SubType = "Form"
+                    SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
