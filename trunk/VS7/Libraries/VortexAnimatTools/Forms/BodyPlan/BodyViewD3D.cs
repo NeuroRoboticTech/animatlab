@@ -732,6 +732,10 @@ namespace VortexAnimatTools.Forms.BodyPlan
 			this.Invalidate();
 		}
 
+		public override void SwapBodyPart(AnimatTools.DataObjects.Physical.BodyPart doExistingPart)
+		{
+		}
+
 		#endregion
 
 		#region Events

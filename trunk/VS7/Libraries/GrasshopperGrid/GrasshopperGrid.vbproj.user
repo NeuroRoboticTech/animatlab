@@ -1,7 +1,7 @@
 <VisualStudioProject>
     <VisualBasic LastOpenVersion = "7.10.3077" >
         <Build>
-            <Settings ReferencePath = "C:\Projects\bin\" >
+            <Settings ReferencePath = "C:\Program Files\AnimatLabSDK\VS7\bin\;C:\Projects\bin\" >
                 <Config
                     Name = "Debug"
                     EnableASPDebugging = "false"
@@ -13,7 +13,7 @@
                     StartAction = "Program"
                     StartArguments = ""
                     StartPage = ""
-                    StartProgram = "C:\Projects\bin\AnimatLab.exe"
+                    StartProgram = "C:\Program Files\AnimatLabSDK\VS7\bin\AnimatLab.exe"
                     StartURL = ""
                     StartWorkingDirectory = ""
                     StartWithIE = "false"
@@ -26,10 +26,10 @@
                     EnableSQLServerDebugging = "false"
                     RemoteDebugEnabled = "false"
                     RemoteDebugMachine = ""
-                    StartAction = "Project"
+                    StartAction = "Program"
                     StartArguments = ""
                     StartPage = ""
-                    StartProgram = ""
+                    StartProgram = "C:\Program Files\AnimatLabSDK\VS7\bin\AnimatLab.exe"
                     StartURL = ""
                     StartWorkingDirectory = ""
                     StartWithIE = "false"

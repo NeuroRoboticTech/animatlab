@@ -3,7 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-
+ 
 #include "PostureControlStimulus.h"
 #include "SynergyFitnessEval.h"
 #include "ClassFactory.h"

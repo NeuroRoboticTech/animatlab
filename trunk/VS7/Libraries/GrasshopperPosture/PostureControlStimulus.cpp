@@ -21,7 +21,7 @@ PostureControlStimulus::PostureControlStimulus()
 	m_lpOrganism = NULL;
 
 	m_fltDesiredBeta = 0;
-	m_fltDesiredDelta = 0;
+	m_fltDesiredDelta = 0; 
 	m_fltDesiredPitch = 0;
 	m_fltGain = 0.002f;
 
@@ -232,7 +232,7 @@ PostureControlStimulus::PostureControlStimulus()
 	m_fltLeftMiddleTibiaTarsusPos = 0.6f;
 
 	m_fltLeftRearThoracicCoxaPos = -0.4f; //0.873;
-	m_fltLeftRearCoxaFemurPos = 0.5f; //0.26f;
+	m_fltLeftRearCoxaFemurPos = 1.0f; //0.5f; //0.26f;
 	m_fltLeftRearFemurTibiaPos = 0;
 	m_fltLeftRearTibiaTarsusPos = -1.5f;
 
@@ -245,7 +245,7 @@ PostureControlStimulus::PostureControlStimulus()
 	m_fltRightMiddleTibiaTarsusPos = 0.6f;
 
 	m_fltRightRearThoracicCoxaPos = -0.4f; //0.873;
-	m_fltRightRearCoxaFemurPos =  0.5f; //0.26f;
+	m_fltRightRearCoxaFemurPos =  1.0f; //0.5f; //0.26f;
 	m_fltRightRearFemurTibiaPos = 0;
 	m_fltRightRearTibiaTarsusPos = -1.5f;
 
@@ -720,7 +720,7 @@ void PostureControlStimulus::StepSimulation(Simulator *lpSim)
 			//After 500 ms move the rear tarsus down so it touches the ground
 			if(lpSim->Time() - m_bTendonLockEnabledTime > 800e-3)
 			{
-				if(!m_bMoveTarsusStarted && (*m_lpfltLeftRearTarsusDown <= 0) && (*m_lpfltLeftRearTarsusDown <= 0) )
+				if(m_lpfltLeftRearTarsusDown && m_lpfltLeftRearTarsusDown && !m_bMoveTarsusStarted && (*m_lpfltLeftRearTarsusDown <= 0) && (*m_lpfltLeftRearTarsusDown <= 0) )
 				{
 					DeactivateMotor(lpSim, m_lpLeftRearTibiaTarsus);
 					DeactivateMotor(lpSim, m_lpRightRearTibiaTarsus);
