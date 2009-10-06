@@ -49,6 +49,9 @@ namespace VortexAnimatTools.DataObjects.Physical.RigidBodies
 		public OdorSensor(AnimatTools.Framework.DataObject doParent) : base(doParent)
 		{
 			m_thOdorType = new AnimatTools.TypeHelpers.LinkedOdorTypeList(null);
+
+			m_thDataTypes.DataTypes.Add(new AnimatTools.DataObjects.DataType("OdorValue", "Odor Value", "", "", -1000, 1000));
+			m_thDataTypes.ID = "OdorValue";
 		}
 
 		protected override void BuildProperties()

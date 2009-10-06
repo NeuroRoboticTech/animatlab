@@ -471,10 +471,10 @@ Namespace DataObjects.Physical
             m_strReferenceID = doOrig.m_strReferenceID
             m_doReference = doOrig.m_doReference
             m_strStructureType = doOrig.m_strStructureType
+            If Not doOrig.Image Is Nothing Then m_Image = DirectCast(doOrig.Image.Clone(), Image)
+            If Not doOrig.m_DragImage Is Nothing Then m_DragImage = DirectCast(doOrig.m_DragImage.Clone(), Image)
+            If Not doOrig.RootBody Is Nothing Then m_dbRoot = DirectCast(doOrig.RootBody.Clone(Me, bCutData, doRoot), RigidBody)
             m_fwPosition = DirectCast(doOrig.m_fwPosition.Clone(Me, bCutData, doRoot), Vec3d)
-            m_Image = DirectCast(doOrig.Image.Clone(), Image)
-            m_DragImage = DirectCast(doOrig.m_DragImage.Clone(), Image)
-            m_dbRoot = DirectCast(doOrig.Clone(Me, bCutData, doRoot), RigidBody)
             m_frmBodyEditor = doOrig.m_frmBodyEditor
             m_iNewBodyIndex = doOrig.m_iNewBodyIndex
             m_iNewJointIndex = doOrig.m_iNewJointIndex

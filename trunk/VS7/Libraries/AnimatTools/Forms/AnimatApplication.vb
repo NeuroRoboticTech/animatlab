@@ -635,7 +635,7 @@ Namespace Forms
             'First lets try and ping the server to see if this person is online.
             'If they are not then lets skip trying to check for updates.
             Dim netMon As New Crownwood.Magic.Network.Ping
-            Dim response As Crownwood.Magic.Network.PingResponse = netMon.PingHost("http://www.animatlab.com", 4)
+            Dim response As Crownwood.Magic.Network.PingResponse = netMon.PingHost("www.animatlab.com", 4)
 
             If Not response Is Nothing AndAlso response.PingResult = Crownwood.Magic.Network.PingResponseType.Ok Then
                 Dim myURL As String
@@ -1979,6 +1979,8 @@ Namespace Forms
 
                 Util.SplitPathAndFile(strFilename, m_strProjectPath, m_strProjectFile)
 
+                Directory.SetCurrentDirectory(m_strProjectPath)
+
                 oXml.Load(strFilename)
 
                 oXml.FindElement("Project")
@@ -2097,6 +2099,49 @@ Namespace Forms
                 Util.ExportStimsInStandAloneSim = False
                 Me.Cursor = System.Windows.Forms.Cursors.Arrow
             End Try
+        End Sub
+
+        Public Overridable Sub ExportStandAloneSim(ByVal strProjectFile As String)
+
+
+            Try
+                Me.Logger.LogMsg(Interfaces.Logger.enumLogLevel.Info, "Starting Save of stand alone config file.")
+
+                If Not m_bProjectIsOpen Then
+                    Throw New System.Exception("You must have an open project before you can save it.")
+                End If
+
+                Me.Cursor = System.Windows.Forms.Cursors.WaitCursor
+
+                Me.ClearIsDirty()
+
+                Dim strFilename As String = strProjectFile
+
+                Util.DisableDirtyFlags = True
+                Util.ExportForStandAloneSim = True
+                Util.ExportChartsInStandAloneSim = True
+                Util.ExportStimsInStandAloneSim = True
+
+                Util.Simulation.SaveData(Me, strFilename)
+
+                Util.DisableDirtyFlags = False
+
+                'MessageBox.Show("Standalone Control Files Created")
+
+                Me.Logger.LogMsg(Interfaces.Logger.enumLogLevel.Info, "Finished successful save of standalone config file")
+
+            Catch ex As System.Exception
+                Me.Logger.LogMsg(Interfaces.Logger.enumLogLevel.Info, "Unable to save standalone config file.")
+                Throw ex
+            Finally
+                Util.RobotOrganism = Nothing
+                Util.ExportForStandAloneSim = False
+                Util.DisableDirtyFlags = False
+                Util.ExportChartsInStandAloneSim = False
+                Util.ExportStimsInStandAloneSim = False
+                Me.Cursor = System.Windows.Forms.Cursors.Arrow
+            End Try
+
         End Sub
 
 #End Region

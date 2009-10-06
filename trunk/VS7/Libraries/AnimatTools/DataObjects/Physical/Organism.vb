@@ -756,17 +756,24 @@ Namespace DataObjects.Physical
             Try
                 Dim newOrganism As New DataObjects.Physical.Organism(Me)
                 newOrganism.IsReference = False
-                newOrganism.Position = DirectCast(Me.Position.Clone(newOrganism, False, Nothing), Vec3d)
+                newOrganism = DirectCast(Me.Clone(Me.Parent, False, Nothing), DataObjects.Physical.Organism)
+                Util.Simulation.Environment.Organisms.Add(newOrganism.ID, newOrganism)
 
                 Util.Environment.NewOrganismCount = Util.Environment.NewOrganismCount + 1
                 newOrganism.Name = "Organism_" & Util.Environment.NewOrganismCount
-                newOrganism.LoadBodyPlan(Util.Simulation)
+                'newOrganism.LoadBodyPlan(Util.Simulation)
 
                 newOrganism.CreateWorkspaceTreeView(Util.Simulation, Util.Application.ProjectWorkspace)
+                newOrganism.WorkspaceStructureNode.ExpandAll()
                 Util.Application.ProjectWorkspace.TreeView.SelectedNode = newOrganism.WorkspaceStructureNode
                 newOrganism.CreateFiles()
 
                 Util.Application.SaveProject(Util.Application.ProjectFile)
+
+                'If this is the first organism then lets set the camer to track it.
+                If Util.Simulation.Environment.Organisms.Count = 1 Then
+                    Util.Environment.Camera.AutoTrack(newOrganism)
+                End If
 
             Catch ex As System.Exception
                 AnimatTools.Framework.Util.DisplayError(ex)

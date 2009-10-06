@@ -507,63 +507,80 @@ Namespace Forms
 
                 'Lets get a reference to needed objects.
                 Dim doGrasshopper As AnimatTools.DataObjects.Physical.Organism = DirectCast(AnimatTools.Framework.Util.Environment.FindOrganismByName("Female Locust"), AnimatTools.DataObjects.Physical.Organism)
+
+                Dim doLeftStim As AnimatTools.DataObjects.ExternalStimuli.RepetitiveCurrent = DirectCast(AnimatTools.Framework.Util.Application.ProjectStimuli.FindDataObjectByName("Left Extensor 2a"), AnimatTools.DataObjects.ExternalStimuli.RepetitiveCurrent)
+                Dim doRightStim As AnimatTools.DataObjects.ExternalStimuli.RepetitiveCurrent = DirectCast(AnimatTools.Framework.Util.Application.ProjectStimuli.FindDataObjectByName("Right Extensor 2a"), AnimatTools.DataObjects.ExternalStimuli.RepetitiveCurrent)
+                Dim doPosture As DataObjects.ExternalStimuli.PostureControl = DirectCast(AnimatTools.Framework.Util.Application.FindStimulusByName("Locust Posture Control"), DataObjects.ExternalStimuli.PostureControl)
+
+                Dim doRoot As VortexAnimatTools.DataObjects.Physical.RigidBodies.Box = DirectCast(doGrasshopper.FindBodyPartByName("Root"), VortexAnimatTools.DataObjects.Physical.RigidBodies.Box)
+
+                Dim doLeftTC As VortexAnimatTools.DataObjects.Physical.Joints.Hinge = DirectCast(doGrasshopper.FindBodyPartByName("Left Rear Thoracic Coxa Joint"), VortexAnimatTools.DataObjects.Physical.Joints.Hinge)
+                Dim doLeftCF As VortexAnimatTools.DataObjects.Physical.Joints.Hinge = DirectCast(doGrasshopper.FindBodyPartByName("Left Rear Coxa Femur"), VortexAnimatTools.DataObjects.Physical.Joints.Hinge)
+                Dim doRightTC As VortexAnimatTools.DataObjects.Physical.Joints.Hinge = DirectCast(doGrasshopper.FindBodyPartByName("Right Rear Thoracic Coxa Joint"), VortexAnimatTools.DataObjects.Physical.Joints.Hinge)
+                Dim doRightCF As VortexAnimatTools.DataObjects.Physical.Joints.Hinge = DirectCast(doGrasshopper.FindBodyPartByName("Right Rear Coxa Femur"), VortexAnimatTools.DataObjects.Physical.Joints.Hinge)
+
                 Dim doLeftSemilunar As VortexAnimatTools.DataObjects.Physical.RigidBodies.Spring = DirectCast(doGrasshopper.FindBodyPartByName("Left Semilunar Spring"), VortexAnimatTools.DataObjects.Physical.RigidBodies.Spring)
                 Dim doRightSemilunar As VortexAnimatTools.DataObjects.Physical.RigidBodies.Spring = DirectCast(doGrasshopper.FindBodyPartByName("Right Semilunar Spring"), VortexAnimatTools.DataObjects.Physical.RigidBodies.Spring)
 
                 Dim doLeftSliderJoint As VortexAnimatTools.DataObjects.Physical.Joints.Prismatic = DirectCast(doGrasshopper.FindBodyPartByName("Left Semilunar Joint"), VortexAnimatTools.DataObjects.Physical.Joints.Prismatic)
                 Dim doRightSliderJoint As VortexAnimatTools.DataObjects.Physical.Joints.Prismatic = DirectCast(doGrasshopper.FindBodyPartByName("Right Semilunar Joint"), VortexAnimatTools.DataObjects.Physical.Joints.Prismatic)
 
-                Dim doLeftTibiaExtensor As VortexAnimatTools.DataObjects.Physical.RigidBodies.LinearHillMuscle = DirectCast(doGrasshopper.FindBodyPartByName("Left Tibia Extensor"), VortexAnimatTools.DataObjects.Physical.RigidBodies.LinearHillMuscle)
-                Dim doRightTibiaExtensor As VortexAnimatTools.DataObjects.Physical.RigidBodies.LinearHillMuscle = DirectCast(doGrasshopper.FindBodyPartByName("Right Tibia Extensor"), VortexAnimatTools.DataObjects.Physical.RigidBodies.LinearHillMuscle)
-
-                Dim doLeftStim As AnimatTools.DataObjects.ExternalStimuli.RepetitiveCurrent = DirectCast(AnimatTools.Framework.Util.Application.ProjectStimuli.FindDataObjectByName("Left Extensor 2a"), AnimatTools.DataObjects.ExternalStimuli.RepetitiveCurrent)
-                Dim doRightStim As AnimatTools.DataObjects.ExternalStimuli.RepetitiveCurrent = DirectCast(AnimatTools.Framework.Util.Application.ProjectStimuli.FindDataObjectByName("Right Extensor 2a"), AnimatTools.DataObjects.ExternalStimuli.RepetitiveCurrent)
-
+                Dim dblIncrement As Double = 1
+                Dim iSimTimeStart As Integer = 10
+                Dim iSimTimeEnd As Integer = 23
+                Dim iTrials As Integer = 20
+                Dim iSims As Integer = CInt((iSimTimeEnd - iSimTimeStart) / dblIncrement) + 1
 
                 'First set things up to do the normal jumps.
+                Dim bAutoSeed As Boolean = AnimatTools.Framework.Util.Environment.AutoGenerateRandomSeed
+                Dim dblLDoff As Double = doLeftStim.CycleOffDuration.Value
+                Dim dblRDoff As Double = doRightStim.CycleOffDuration.Value
+                Dim iSeed As Integer = AnimatTools.Framework.Util.Environment.ManualRandomSeed
+                AnimatTools.Framework.Util.Environment.AutoGenerateRandomSeed = False
+
                 doLeftSemilunar.Enabled = True
                 doRightSemilunar.Enabled = True
                 doLeftSliderJoint.EnableMotor = False
                 doRightSliderJoint.EnableMotor = False
-                Dim bAutoSeed As Boolean = AnimatTools.Framework.Util.Environment.AutoGenerateRandomSeed
-                AnimatTools.Framework.Util.Environment.AutoGenerateRandomSeed = False
 
-                Dim rndNum As System.Random = New System.Random
-                Dim aryRandNums As New ArrayList
-                For iNum As Integer = 1 To 20
-                    aryRandNums.Add(CInt(AnimatTools.Framework.Util.Rand(100, 10000, rndNum)))
-                Next
-
-                Dim aryMaxTen() As Double = {15, 13, 11, 9, 7}
-                Dim dblMaxTen As Double = doLeftTibiaExtensor.MaxTension.ActualValue
+                doRoot.XRotationScaled.Value = 180
+                doRoot.Freeze = True
+                doLeftTC.EnableMotor = True
+                doLeftCF.EnableMotor = True
+                doRightTC.EnableMotor = True
+                doRightCF.EnableMotor = True
+                doPosture.Enabled = False
 
                 AnimatTools.Framework.Util.ExportForStandAloneSim = True
                 AnimatTools.Framework.Util.ExportChartsInStandAloneSim = True
                 AnimatTools.Framework.Util.ExportStimsInStandAloneSim = True
 
-                doLeftTibiaExtensor.MaxTension.ActualValue = 15
-                doRightTibiaExtensor.MaxTension.ActualValue = 15
-
-                For iTrial As Integer = 1 To 20
-                    AnimatTools.Framework.Util.Environment.ManualRandomSeed = CInt(aryRandNums(iTrial - 1))
-
-                    strFileName = strPath & "\Kick_15_" & iTrial & ".asim"
-                    AnimatTools.Framework.Util.Simulation.SaveData(AnimatTools.Framework.Util.Application, strFileName)
+                Dim rndNum As System.Random = New System.Random
+                Dim aryRandNums As New ArrayList
+                For iNum As Integer = 1 To (iSims * iTrials)
+                    aryRandNums.Add(413 + iNum)
                 Next
 
-                doLeftTibiaExtensor.MaxTension.ActualValue = 8
-                doRightTibiaExtensor.MaxTension.ActualValue = 8
+                Dim dblStim As Double = iSimTimeStart
+                Dim idxRandNum As Integer = 0
+                For iStimStep As Integer = 1 To iSims
+                    For iTrial As Integer = 1 To iTrials
+                        AnimatTools.Framework.Util.Environment.ManualRandomSeed = CInt(aryRandNums(idxRandNum))
+                        doLeftStim.CycleOffDuration.Value = dblStim
+                        doRightStim.CycleOffDuration.Value = dblStim
 
-                For iTrial As Integer = 1 To 20
-                    AnimatTools.Framework.Util.Environment.ManualRandomSeed = CInt(aryRandNums(iTrial - 1))
+                        strFileName = strPath & "\KickTest_" & CInt(dblStim * 10) & "_Trial_" & (iTrial) & ".asim"
+                        AnimatTools.Framework.Util.Simulation.SaveData(AnimatTools.Framework.Util.Application, strFileName)
+                        idxRandNum = idxRandNum + 1
+                    Next
 
-                    strFileName = strPath & "\Kick_8_" & iTrial & ".asim"
-                    AnimatTools.Framework.Util.Simulation.SaveData(AnimatTools.Framework.Util.Application, strFileName)
+                    dblStim = dblStim + dblIncrement
                 Next
 
                 'Set everything back for normal jumps.
-                doLeftTibiaExtensor.MaxTension.ActualValue = dblMaxTen
-                doRightTibiaExtensor.MaxTension.ActualValue = dblMaxTen
+                doLeftStim.CycleOffDuration.Value = dblLDoff
+                doRightStim.CycleOffDuration.Value = dblRDoff
+                AnimatTools.Framework.Util.Environment.ManualRandomSeed = iSeed
 
             Catch ex As System.Exception
                 AnimatTools.Framework.Util.DisplayError(ex)
@@ -1260,6 +1277,7 @@ Namespace Forms
 
                 Dim doLeftStim As AnimatTools.DataObjects.ExternalStimuli.RepetitiveCurrent = DirectCast(AnimatTools.Framework.Util.Application.ProjectStimuli.FindDataObjectByName("Left Extensor 2a"), AnimatTools.DataObjects.ExternalStimuli.RepetitiveCurrent)
                 Dim doRightStim As AnimatTools.DataObjects.ExternalStimuli.RepetitiveCurrent = DirectCast(AnimatTools.Framework.Util.Application.ProjectStimuli.FindDataObjectByName("Right Extensor 2a"), AnimatTools.DataObjects.ExternalStimuli.RepetitiveCurrent)
+                Dim doPosture As DataObjects.ExternalStimuli.PostureControl = DirectCast(AnimatTools.Framework.Util.Application.FindStimulusByName("Locust Posture Control"), DataObjects.ExternalStimuli.PostureControl)
 
                 Dim doLeftSemilunar As VortexAnimatTools.DataObjects.Physical.RigidBodies.Spring = DirectCast(doGrasshopper.FindBodyPartByName("Left Semilunar Spring"), VortexAnimatTools.DataObjects.Physical.RigidBodies.Spring)
                 Dim doRightSemilunar As VortexAnimatTools.DataObjects.Physical.RigidBodies.Spring = DirectCast(doGrasshopper.FindBodyPartByName("Right Semilunar Spring"), VortexAnimatTools.DataObjects.Physical.RigidBodies.Spring)
@@ -1267,17 +1285,24 @@ Namespace Forms
                 Dim doLeftSliderJoint As VortexAnimatTools.DataObjects.Physical.Joints.Prismatic = DirectCast(doGrasshopper.FindBodyPartByName("Left Semilunar Joint"), VortexAnimatTools.DataObjects.Physical.Joints.Prismatic)
                 Dim doRightSliderJoint As VortexAnimatTools.DataObjects.Physical.Joints.Prismatic = DirectCast(doGrasshopper.FindBodyPartByName("Right Semilunar Joint"), VortexAnimatTools.DataObjects.Physical.Joints.Prismatic)
 
-                Dim dblIncrement As Double = 2
+                Dim dblIncrement As Double = 1
                 Dim iSimTimeStart As Integer = 10
-                Dim iSimTimeEnd As Integer = 30
-                Dim iTrials As Integer = 2
+                Dim iSimTimeEnd As Integer = 23
+                Dim iTrials As Integer = 5
                 Dim iSims As Integer = CInt((iSimTimeEnd - iSimTimeStart) / dblIncrement) + 1
+                'Dim aryBetasW As Double() = New Double() {41, 41, 41, 42, 43, 43, 44, 46, 48, 50, 55}
+                'Dim aryBetasWo As Double() = New Double() {46, 46, 46, 46, 46, 46, 46, 48, 49, 53, 55}
+                'Dim aryBetasW As Double() = New Double() {52, 52, 52, 52, 52, 52, 53, 53, 53, 53, 53, 53, 54, 54, 56, 59, 59, 59, 60, 63, 65}
+                'Dim aryBetasWo As Double() = New Double() {58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 59, 60, 61, 62, 63, 64, 65, 66}
+                Dim aryBetasW As Double() = New Double() {32, 32, 32, 32, 32, 32, 33, 33, 33, 33, 33, 33, 34, 34, 36, 39, 39, 39, 40, 43, 45}
+                Dim aryBetasWo As Double() = New Double() {38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 39, 40, 41, 42, 43, 44, 45, 46}
 
                 'First set things up to do the normal jumps.
                 Dim bAutoSeed As Boolean = AnimatTools.Framework.Util.Environment.AutoGenerateRandomSeed
                 Dim dblLDoff As Double = doLeftStim.CycleOffDuration.Value
                 Dim dblRDoff As Double = doRightStim.CycleOffDuration.Value
                 Dim iSeed As Integer = AnimatTools.Framework.Util.Environment.ManualRandomSeed
+                Dim dblBeta As Double = doPosture.Beta.ActualValue
                 AnimatTools.Framework.Util.Environment.AutoGenerateRandomSeed = False
 
                 doLeftSemilunar.Enabled = True
@@ -1299,11 +1324,12 @@ Namespace Forms
                 Dim idxRandNum As Integer = 0
                 For iStimStep As Integer = 1 To iSims
                     For iTrial As Integer = 1 To iTrials
+                        doPosture.Beta.ActualValue = aryBetasW(iStimStep - 1)
                         AnimatTools.Framework.Util.Environment.ManualRandomSeed = CInt(aryRandNums(idxRandNum))
                         doLeftStim.CycleOffDuration.Value = dblStim
                         doRightStim.CycleOffDuration.Value = dblStim
 
-                        strFileName = strPath & "\SLPTest_With_" & CInt(dblStim * 10) & "_Trial_" & iTrial & ".asim"
+                        strFileName = strPath & "\SLPTest_With_" & CInt(dblStim * 10) & "_Trial_" & (iTrial) & ".asim"
                         AnimatTools.Framework.Util.Simulation.SaveData(AnimatTools.Framework.Util.Application, strFileName)
                         idxRandNum = idxRandNum + 1
                     Next
@@ -1320,11 +1346,12 @@ Namespace Forms
                 idxRandNum = 0
                 For iStimStep As Integer = 1 To iSims
                     For iTrial As Integer = 1 To iTrials
+                        doPosture.Beta.ActualValue = aryBetasWo(iStimStep - 1)
                         AnimatTools.Framework.Util.Environment.ManualRandomSeed = CInt(aryRandNums(idxRandNum))
                         doLeftStim.CycleOffDuration.Value = dblStim
                         doRightStim.CycleOffDuration.Value = dblStim
 
-                        strFileName = strPath & "\SLPTest_Without_" & CInt(dblStim * 10) & "_Trial_" & iTrial & ".asim"
+                        strFileName = strPath & "\SLPTest_Without_" & CInt(dblStim * 10) & "_Trial_" & (iTrial) & ".asim"
                         AnimatTools.Framework.Util.Simulation.SaveData(AnimatTools.Framework.Util.Application, strFileName)
                         idxRandNum = idxRandNum + 1
                     Next
@@ -1336,6 +1363,7 @@ Namespace Forms
                 doLeftStim.CycleOffDuration.Value = dblLDoff
                 doRightStim.CycleOffDuration.Value = dblRDoff
                 AnimatTools.Framework.Util.Environment.ManualRandomSeed = iSeed
+                doPosture.Beta.ActualValue = dblBeta
                 doLeftSemilunar.Enabled = True
                 doRightSemilunar.Enabled = True
                 doLeftSliderJoint.EnableMotor = False
