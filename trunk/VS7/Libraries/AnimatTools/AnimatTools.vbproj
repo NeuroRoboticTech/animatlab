@@ -510,6 +510,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "DataObjects\ExternalStimuli\VoltageClamp.vb"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "DataObjects\Gains\Bell.vb"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -1285,6 +1290,14 @@
                 />
                 <File
                     RelPath = "Graphics\CameraTreeView.gif"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Graphics\Clamp.gif"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Graphics\Clamp_Large.gif"
                     BuildAction = "EmbeddedResource"
                 />
                 <File

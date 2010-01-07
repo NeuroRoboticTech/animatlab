@@ -178,6 +178,8 @@ try
 		lpStimulus = new CurrentInjection;
 	else if(strType == "CURRENT")
 		lpStimulus = new AnimatLibrary::ExternalStimuli::CurrentStimulus;
+	else if(strType == "VOLTAGECLAMP")
+		lpStimulus = new AnimatLibrary::ExternalStimuli::VoltageClamp;
 	else
 	{
 		lpStimulus = NULL;

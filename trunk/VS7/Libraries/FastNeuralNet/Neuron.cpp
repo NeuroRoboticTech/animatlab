@@ -37,6 +37,7 @@ Neuron::Neuron()
 	m_fltSynapticI = 0;
 	m_fltAdapterI = 0;
 	m_fltAdapterMemoryI = 0;
+	m_fltTotalMemoryI = 0;
 	m_fltVn = 0;
 	m_fltFiringFreq = 0;
 	m_fltVndisp = 0;
@@ -168,6 +169,9 @@ void Neuron::StepSimulation(Simulator *lpSim, Organism *lpOrganism, FastNeuralMo
 
 		if(m_bUseNoise)
 			m_fltVNoise = Std_FRand(-m_fltVNoiseMax, m_fltVNoiseMax);
+		
+		//Get the total current being applied to the neuron.
+		m_fltTotalMemoryI = m_fltSynapticI + m_fltIntrinsicI + m_fltExternalI + m_fltAdapterI;
 
 		m_aryVn[lpModule->InactiveArray()] = m_aryVn[lpModule->ActiveArray()] + m_fltVNoise + 
 							(lpModule->TimeStep() * (1/m_fltCn) * 
@@ -285,6 +289,9 @@ float *Neuron::GetDataPointer(string strDataType)
 	if(strType == "ADAPTERCURRENT")
 		return &m_fltAdapterMemoryI;
 
+	if(strType == "TOTALCURRENT")
+		return &m_fltTotalMemoryI;
+
 	if(strType == "MEMBRANEVOLTAGE")
 		return &m_fltVndisp;
 
@@ -296,6 +303,12 @@ float *Neuron::GetDataPointer(string strDataType)
 
 	if(strType == "THRESHOLD")
 		return &m_fltVthdisp;
+
+	if(strType == "Gm")
+		return &m_fltGn;
+
+	if(strType == "VREST")
+		return &m_fltVrest;
 
 	//If it was not one of those above then we have a problem.
 	THROW_PARAM_ERROR(Nl_Err_lInvalidNeuronDataType, Nl_Err_strInvalidNeuronDataType, "Neuron Data Type", strDataType);

@@ -326,6 +326,7 @@ namespace GrasshopperPosture
 			BOOL RearFemurTibiaDisabled;
 			BOOL m_bMoveTarsusStarted;
 			int m_iTarsusCounter;
+			BOOL m_bTumblingSetup;
 
 			float m_fltDesiredBeta;
 			float m_fltDesiredPitch;

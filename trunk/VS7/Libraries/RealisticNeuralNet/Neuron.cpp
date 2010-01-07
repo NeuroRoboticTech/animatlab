@@ -45,6 +45,10 @@ Neuron::Neuron()
 	m_fltSpike = 0;
 	m_fltIonChannelStandin = 0;
 	m_dCm = 0;
+	m_fltGm = 0;
+	m_fltVrest = 0;
+	m_fltTotalI = 0;
+	m_fltTotalMemoryI = 0;
 }
 
 Neuron::~Neuron()
@@ -87,6 +91,9 @@ void Neuron::Load(CStdXml &oXml, RealisticNeuralModule *lpNS)
 	m_dVH=oXml.GetChildDouble("VH");
 	m_dSH=oXml.GetChildDouble("SH");
 	m_dHTimeConst=oXml.GetChildDouble("HTimeConst");
+
+	m_fltGm = (float) (1/(m_dSize*1e6));
+	m_fltVrest = (float) (m_dRestingPot*1e-3);
 
 //	Std_LogMsg(0, "Test", __FILE__, __LINE__);
 //	LOG_MSG(0, STR(m_dHTimeConst)+ " H time const: ");
@@ -515,14 +522,20 @@ void Neuron::CalcUpdate(RealisticNeuralModule *lpNS)
 	DCE=exp(-m_dGTot*m_dDT/m_dTimeConst);
 	if(!lpNS->HH())
 	{
-		E=(m_dMemPot-m_dRestingPot)*DCE+
-			(m_dStim+m_fltChannelI+GSI+m_dGK*(m_dAHPEquilPot-m_dRestingPot)+iCa+m_dElecSynCur+m_dNonSpikingSynCur)
-			*(1-DCE)/m_dGTot;
+		//E=(m_dMemPot-m_dRestingPot)*DCE+
+		//	(m_dStim+m_fltChannelI+GSI+m_dGK*(m_dAHPEquilPot-m_dRestingPot)+iCa+m_dElecSynCur+m_dNonSpikingSynCur)
+		//	*(1-DCE)/m_dGTot;
+		m_fltTotalI = (m_dStim+m_fltChannelI+GSI+m_dGK*(m_dAHPEquilPot-m_dRestingPot)+iCa+m_dElecSynCur+m_dNonSpikingSynCur);
+		E=(m_dMemPot-m_dRestingPot)*DCE+(m_fltTotalI*(1-DCE)/m_dGTot);
 	}
 	else
-	{
-		E=(m_dStim+m_fltChannelI+GSI+m_dGK*(m_dAHPEquilPot-m_dRestingPot)+iCa+m_dElecSynCur+m_dNonSpikingSynCur)/m_dCm;
+	{	
+		m_fltTotalI = (m_dStim+m_fltChannelI+GSI+m_dGK*(m_dAHPEquilPot-m_dRestingPot)+iCa+m_dElecSynCur+m_dNonSpikingSynCur);
+		//E=(m_dStim+m_fltChannelI+GSI+m_dGK*(m_dAHPEquilPot-m_dRestingPot)+iCa+m_dElecSynCur+m_dNonSpikingSynCur)/m_dCm;
+		E=m_fltTotalI/m_dCm;
 	}
+
+	m_fltTotalMemoryI = m_fltTotalI*1e-9;
 
 	m_dElecSynCur=m_dElecSynCond=0;
 	m_dNonSpikingSynCur=m_dNonSpikingSynCond=0;
@@ -598,8 +611,17 @@ float *Neuron::GetDataPointer(string strDataType)
 	if(strType == "IONCHANNELCURRENT")
 		return &m_fltChannelMemoryI;
 
+	if(strType == "TOTALCURRENT")
+		return &m_fltTotalMemoryI;
+
 	if(strType == "SPIKE")
 		return &m_fltSpike;
+
+	if(strType == "GM")
+		return &m_fltGm;
+
+	if(strType == "VREST")
+		return &m_fltVrest;
 
 	//If it was not one of those above then we have a problem.
 	THROW_PARAM_ERROR(Rn_Err_lInvalidNeuronDataType, Rn_Err_strInvalidNeuronDataType, "Neuron Data Type", strDataType);

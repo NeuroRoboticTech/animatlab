@@ -32,6 +32,7 @@ IonChannelSigmoid::IonChannelSigmoid()
 	m_fltE = 0;
 	m_fltF = 0;
 	m_fltG = 0;
+	m_fltH = 1;
 }
 
 
@@ -58,7 +59,7 @@ catch(...)
 float IonChannelSigmoid::CalculateGain(float fltInput)
 {
 	if(InLimits(fltInput))
-		return (m_fltA + (m_fltB/(1 + exp(m_fltC*(fltInput+m_fltD)) + m_fltE*exp(m_fltF*(fltInput+m_fltG)) )));
+		return (m_fltA + (m_fltB/(m_fltH + exp(m_fltC*(fltInput+m_fltD)) + m_fltE*exp(m_fltF*(fltInput+m_fltG)) )));
 	else
 		return CalculateLimitOutput(fltInput);
 }
@@ -76,6 +77,7 @@ void IonChannelSigmoid::Load(CStdXml &oXml)
 	m_fltE = oXml.GetChildFloat("E");
 	m_fltF = oXml.GetChildFloat("F");
 	m_fltG = oXml.GetChildFloat("G");
+	m_fltH = oXml.GetChildFloat("H");
 
 	oXml.OutOfElem(); //OutOf Adapter Element
 }
@@ -93,6 +95,7 @@ void IonChannelSigmoid::LoadFull(CStdXml &oXml)
 	m_fltE = AnimatLibrary::LoadScaledNumber(oXml, "E", FALSE, m_fltE);
 	m_fltF = AnimatLibrary::LoadScaledNumber(oXml, "F", FALSE, m_fltF);
 	m_fltG = AnimatLibrary::LoadScaledNumber(oXml, "G", FALSE, m_fltG);
+	m_fltH = AnimatLibrary::LoadScaledNumber(oXml, "H", FALSE, m_fltH);
 
 	oXml.OutOfElem(); //OutOf Adapter Element
 }

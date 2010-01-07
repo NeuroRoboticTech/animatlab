@@ -124,6 +124,7 @@ namespace AnimatLibrary
 		class JointInputStimulus;
 		class CurrentStimulus;
 		class EnablerStimulus;
+		class VoltageClamp;
 	}
 
 	namespace Gains
@@ -218,6 +219,7 @@ using namespace AnimatLibrary::Recording;
 #include "JointInputStimulus.h"
 #include "CurrentStimulus.h"
 #include "EnablerStimulus.h"
+#include "VoltageClamp.h"
 #include "KeyFrame.h"
 #include "SimulationRecorder.h"
 #include "Simulator.h"

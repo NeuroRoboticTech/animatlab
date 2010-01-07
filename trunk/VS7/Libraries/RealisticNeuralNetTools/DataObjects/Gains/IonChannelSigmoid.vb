@@ -23,6 +23,7 @@ Namespace DataObjects.Gains
         Protected m_snE As AnimatTools.Framework.ScaledNumber
         Protected m_snF As AnimatTools.Framework.ScaledNumber
         Protected m_snG As AnimatTools.Framework.ScaledNumber
+        Protected m_snH As AnimatTools.Framework.ScaledNumber
 
 #End Region
 
@@ -51,7 +52,7 @@ Namespace DataObjects.Gains
 
         Public Overrides ReadOnly Property GainEquation() As String
             Get
-                Return "Y = A + B/(1 + e^(C*(V+D)) + E*e^(F*(V+G))"
+                Return "Y = A + B/(H + e^(C*(V+D)) + E*e^(F*(V+G))"
             End Get
         End Property
 
@@ -176,6 +177,24 @@ Namespace DataObjects.Gains
             End Set
         End Property
 
+
+        <Category("Equation Parameters"), _
+         Description("Sets the half-activation level for the second exponential in the sigmoid for the ion-channel curve."), _
+         TypeConverter(GetType(AnimatTools.Framework.ScaledNumber.ScaledNumericPropBagConverter))> _
+        Public Overridable Property H() As AnimatTools.Framework.ScaledNumber
+            Get
+                Return m_snH
+            End Get
+            Set(ByVal Value As AnimatTools.Framework.ScaledNumber)
+                Dim snOrig As ScaledNumber = DirectCast(m_snH.Clone(m_snG.Parent, False, Nothing), ScaledNumber)
+                If Not Value Is Nothing Then m_snH.CopyData(Value)
+
+                Dim snNew As ScaledNumber = DirectCast(m_snH.Clone(m_snH.Parent, False, Nothing), ScaledNumber)
+                Me.ManualAddPropertyHistory("H", snOrig, snNew, True)
+                RecalculuateLimits()
+            End Set
+        End Property
+
         '<Category("Gain Limits"), _
         ' Description("The tension value at the minimum limit."), _
         ' TypeConverter(GetType(AnimatTools.Framework.ScaledNumber.ScaledNumericPropBagConverter))> _
@@ -240,10 +259,11 @@ Namespace DataObjects.Gains
             m_snA = New AnimatTools.Framework.ScaledNumber(Me, "A", 0, AnimatTools.Framework.ScaledNumber.enumNumericScale.milli, "", "")
             m_snB = New AnimatTools.Framework.ScaledNumber(Me, "B", 1, AnimatTools.Framework.ScaledNumber.enumNumericScale.None, "", "")
             m_snC = New AnimatTools.Framework.ScaledNumber(Me, "C", 100, AnimatTools.Framework.ScaledNumber.enumNumericScale.None, "", "")
-            m_snD = New AnimatTools.Framework.ScaledNumber(Me, "D", 40, AnimatTools.Framework.ScaledNumber.enumNumericScale.None.milli, "", "")
+            m_snD = New AnimatTools.Framework.ScaledNumber(Me, "D", 40, AnimatTools.Framework.ScaledNumber.enumNumericScale.None, "", "")
             m_snE = New AnimatTools.Framework.ScaledNumber(Me, "E", 0, AnimatTools.Framework.ScaledNumber.enumNumericScale.None, "", "")
             m_snF = New AnimatTools.Framework.ScaledNumber(Me, "F", 0, AnimatTools.Framework.ScaledNumber.enumNumericScale.None, "", "")
-            m_snG = New AnimatTools.Framework.ScaledNumber(Me, "G", 0, AnimatTools.Framework.ScaledNumber.enumNumericScale.None.milli, "", "")
+            m_snG = New AnimatTools.Framework.ScaledNumber(Me, "G", 0, AnimatTools.Framework.ScaledNumber.enumNumericScale.None, "", "")
+            m_snH = New AnimatTools.Framework.ScaledNumber(Me, "H", 1, AnimatTools.Framework.ScaledNumber.enumNumericScale.None, "", "")
 
             Me.UseLimits = True
             m_snLowerLimit = New AnimatTools.Framework.ScaledNumber(Me, "LowerLimit", -100, AnimatTools.Framework.ScaledNumber.enumNumericScale.milli, "", "V")
@@ -266,10 +286,11 @@ Namespace DataObjects.Gains
             m_snA = New AnimatTools.Framework.ScaledNumber(Me, "A", 0, AnimatTools.Framework.ScaledNumber.enumNumericScale.milli, "", "")
             m_snB = New AnimatTools.Framework.ScaledNumber(Me, "B", 1, AnimatTools.Framework.ScaledNumber.enumNumericScale.None, "", "")
             m_snC = New AnimatTools.Framework.ScaledNumber(Me, "C", 100, AnimatTools.Framework.ScaledNumber.enumNumericScale.None, "", "")
-            m_snD = New AnimatTools.Framework.ScaledNumber(Me, "D", 40, AnimatTools.Framework.ScaledNumber.enumNumericScale.None.milli, "", "")
+            m_snD = New AnimatTools.Framework.ScaledNumber(Me, "D", 40, AnimatTools.Framework.ScaledNumber.enumNumericScale.None, "", "")
             m_snE = New AnimatTools.Framework.ScaledNumber(Me, "E", 0, AnimatTools.Framework.ScaledNumber.enumNumericScale.None, "", "")
             m_snF = New AnimatTools.Framework.ScaledNumber(Me, "F", 0, AnimatTools.Framework.ScaledNumber.enumNumericScale.None, "", "")
-            m_snG = New AnimatTools.Framework.ScaledNumber(Me, "G", 0, AnimatTools.Framework.ScaledNumber.enumNumericScale.None.milli, "", "")
+            m_snG = New AnimatTools.Framework.ScaledNumber(Me, "G", 0, AnimatTools.Framework.ScaledNumber.enumNumericScale.None, "", "")
+            m_snH = New AnimatTools.Framework.ScaledNumber(Me, "H", 1, AnimatTools.Framework.ScaledNumber.enumNumericScale.None, "", "")
 
             Me.UseLimits = True
             m_snLowerLimit = New AnimatTools.Framework.ScaledNumber(Me, "LowerLimit", -100, AnimatTools.Framework.ScaledNumber.enumNumericScale.milli, "", "")
@@ -290,7 +311,11 @@ Namespace DataObjects.Gains
         Public Overrides Function CalculateGain(ByVal dblInput As Double) As Double
 
             If (InLimits(dblInput)) Then
-                Return (m_snA.ActualValue + (m_snB.ActualValue / (1 + Math.Exp(m_snC.ActualValue * (dblInput + m_snD.ActualValue)) + m_snE.ActualValue * Math.Exp(m_snF.ActualValue * (dblInput * m_snG.ActualValue)))))
+                'Dim fltA As Double = Math.Exp(m_snC.ActualValue * (dblInput + m_snD.ActualValue))
+                'Dim fltB As Double = m_snE.ActualValue * Math.Exp(m_snF.ActualValue * (dblInput + m_snG.ActualValue))
+                'Dim fltC As Double = (m_snB.ActualValue / (m_snH.ActualValue + fltA + fltB))
+
+                Return (m_snA.ActualValue + (m_snB.ActualValue / (m_snH.ActualValue + Math.Exp(m_snC.ActualValue * (dblInput + m_snD.ActualValue)) + (m_snE.ActualValue * Math.Exp(m_snF.ActualValue * (dblInput + m_snG.ActualValue))))))
             Else
                 Return CalculateLimitOutput(dblInput)
             End If
@@ -338,6 +363,7 @@ Namespace DataObjects.Gains
             m_snE = DirectCast(gnOrig.m_snE.Clone(Me, bCutData, doRoot), ScaledNumber)
             m_snF = DirectCast(gnOrig.m_snF.Clone(Me, bCutData, doRoot), ScaledNumber)
             m_snG = DirectCast(gnOrig.m_snG.Clone(Me, bCutData, doRoot), ScaledNumber)
+            m_snH = DirectCast(gnOrig.m_snH.Clone(Me, bCutData, doRoot), ScaledNumber)
 
         End Sub
 
@@ -355,6 +381,10 @@ Namespace DataObjects.Gains
                 m_snE.LoadData(oXml, "E")
                 m_snF.LoadData(oXml, "F")
                 m_snG.LoadData(oXml, "G")
+
+                If oXml.FindChildElement("H", False) Then
+                    m_snH.LoadData(oXml, "H")
+                End If
 
                 RecalculuateLimits()
 
@@ -382,6 +412,7 @@ Namespace DataObjects.Gains
                 m_snE.SaveData(oXml, "E")
                 m_snF.SaveData(oXml, "F")
                 m_snG.SaveData(oXml, "G")
+                m_snH.SaveData(oXml, "H")
 
                 oXml.OutOfElem()
 
@@ -404,6 +435,7 @@ Namespace DataObjects.Gains
             oXml.AddChildElement("E", m_snE.ActualValue())
             oXml.AddChildElement("F", m_snF.ActualValue())
             oXml.AddChildElement("G", m_snG.ActualValue())
+            oXml.AddChildElement("H", m_snH.ActualValue())
 
             oXml.OutOfElem()
 
@@ -448,6 +480,11 @@ Namespace DataObjects.Gains
                                         "Equation Parameters", "Sets the half-activation level for the second exponential in the sigmoid for the ion-channel curve.", pbNumberBag, _
                                         "", GetType(AnimatTools.Framework.ScaledNumber.ScaledNumericPropBagConverter)))
 
+            pbNumberBag = m_snH.Properties
+            m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("H", pbNumberBag.GetType(), "H", _
+                                        "Equation Parameters", "Sets the half-activation level for the second exponential in the sigmoid for the ion-channel curve.", pbNumberBag, _
+                                        "", GetType(AnimatTools.Framework.ScaledNumber.ScaledNumericPropBagConverter)))
+
             pbNumberBag = Me.ValAtMin.Properties
             m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("ValAtMin", pbNumberBag.GetType(), "ValAtMin", _
                                         "Gain Limits", "The tension value at the minimum limit.", pbNumberBag, _
@@ -470,6 +507,7 @@ Namespace DataObjects.Gains
             If Not m_snE Is Nothing Then m_snE.ClearIsDirty()
             If Not m_snF Is Nothing Then m_snF.ClearIsDirty()
             If Not m_snG Is Nothing Then m_snG.ClearIsDirty()
+            If Not m_snH Is Nothing Then m_snH.ClearIsDirty()
 
         End Sub
 

@@ -299,6 +299,7 @@ Namespace DataObjects.Behavior.Neurons
 
                 'Lets add the data types that this node understands.
                 'm_thDataTypes.DataTypes.Add("IntrinsicCurrent", "Intrinsic Current")
+                m_thDataTypes.DataTypes.Add(New AnimatTools.DataObjects.DataType("TotalCurrent", "Total Current", "Amps", "A", -100, 100, ScaledNumber.enumNumericScale.nano, ScaledNumber.enumNumericScale.nano))
                 m_thDataTypes.DataTypes.Add(New AnimatTools.DataObjects.DataType("AdapterCurrent", "Adapter Current", "Amps", "A", -100, 100, ScaledNumber.enumNumericScale.nano, ScaledNumber.enumNumericScale.nano))
                 m_thDataTypes.DataTypes.Add(New AnimatTools.DataObjects.DataType("ExternalCurrent", "External Current", "Amps", "A", -100, 100, ScaledNumber.enumNumericScale.nano, ScaledNumber.enumNumericScale.nano))
                 m_thDataTypes.DataTypes.Add(New AnimatTools.DataObjects.DataType("IonChannelCurrent", "Ion Channel Current", "Amps", "A", -100, 100, ScaledNumber.enumNumericScale.nano, ScaledNumber.enumNumericScale.nano))

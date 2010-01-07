@@ -88,14 +88,19 @@ float IonChannel::CalculateCurrent(float fltStep, float fltVm)
 {
 	if(m_bEnabled)
 	{
-		m_fltMinf = m_lpMinf->CalculateGain(fltVm);
-		m_fltTm = m_lpTm->CalculateGain(fltVm);
+		if(m_fltMPower > 0)
+		{
+			m_fltMinf = m_lpMinf->CalculateGain(fltVm);
+			m_fltTm = m_lpTm->CalculateGain(fltVm);
+			m_fltM = m_fltM + fltStep*((m_fltMinf- m_fltM)/(m_fltNm*m_fltTm));
+		}
 
-		m_fltM = m_fltM + fltStep*(m_fltMinf- m_fltM)/(m_fltNm*m_fltTm);
-
-		m_fltHinf = m_lpHinf->CalculateGain(fltVm);
-		m_fltTh = m_lpTh->CalculateGain(fltVm);
-		m_fltH = m_fltH + fltStep*(m_fltHinf- m_fltH)/(m_fltNh*m_fltTh);
+		if(m_fltHPower > 0)
+		{
+			m_fltHinf = m_lpHinf->CalculateGain(fltVm);
+			m_fltTh = m_lpTh->CalculateGain(fltVm);
+			m_fltH = m_fltH + fltStep*((m_fltHinf- m_fltH)/(m_fltNh*m_fltTh));
+		}
 
 		m_fltTotalAct = pow(m_fltM, m_fltMPower)*pow(m_fltH, m_fltHPower);
 		m_fltG = m_fltGmax*m_fltTotalAct;

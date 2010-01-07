@@ -24,6 +24,7 @@ PostureControlStimulus::PostureControlStimulus()
 	m_fltDesiredDelta = 0; 
 	m_fltDesiredPitch = 0;
 	m_fltGain = 0.002f;
+	m_bTumblingSetup = FALSE;
 
 	m_fltAbDelay = 0;
 	m_fltAbPropGain = 0;
@@ -242,7 +243,7 @@ PostureControlStimulus::PostureControlStimulus()
  
 	m_fltRightMiddleCoxaFemurPos = -0.82f; //-0.42f;
 	m_fltRightMiddleFemurTibiaPos = -0.50f;
-	m_fltRightMiddleTibiaTarsusPos = 0.6f;
+	m_fltRightMiddleTibiaTarsusPos = 0.6f; 
 
 	m_fltRightRearThoracicCoxaPos = -0.4f; //0.873;
 	m_fltRightRearCoxaFemurPos =  1.0f; //0.5f; //0.26f;
@@ -1344,6 +1345,18 @@ void PostureControlStimulus::Load(Simulator *lpSim, CStdXml &oXml)
 	
 	m_bEnableAbControl = oXml.GetChildBool("EnableAbControl", FALSE);
 	m_bLockAbJump = oXml.GetChildBool("LockAbJump", FALSE);
+	m_bTumblingSetup = oXml.GetChildBool("TumblingSetup", FALSE);
+
+	if(m_bTumblingSetup)
+	{
+		m_fltLeftRearCoxaFemurPos = 0.5f;
+		m_fltRightRearCoxaFemurPos =  0.5f;
+	}
+	else
+	{
+		m_fltLeftRearCoxaFemurPos = 1.0f;
+		m_fltRightRearCoxaFemurPos =  1.0f;
+	}
 
 	oXml.OutOfElem(); //OutOf Simulus Element
 

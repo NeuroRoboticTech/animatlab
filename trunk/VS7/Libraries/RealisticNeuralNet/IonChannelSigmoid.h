@@ -36,6 +36,7 @@ namespace RealisticNeuralNet
 			float m_fltE;
 			float m_fltF;
 			float m_fltG;
+			float m_fltH;
 
 		public:
 			IonChannelSigmoid();

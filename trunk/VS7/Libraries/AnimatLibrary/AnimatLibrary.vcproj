@@ -338,6 +338,9 @@ Copy &quot;$(TargetPath)&quot; %systemroot%\system32
 			<File
 				RelativePath=".\Structure.cpp">
 			</File>
+			<File
+				RelativePath=".\VoltageClamp.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -552,6 +555,9 @@ Copy &quot;$(TargetPath)&quot; %systemroot%\system32
 			</File>
 			<File
 				RelativePath=".\Structure.h">
+			</File>
+			<File
+				RelativePath=".\VoltageClamp.h">
 			</File>
 		</Filter>
 		<Filter

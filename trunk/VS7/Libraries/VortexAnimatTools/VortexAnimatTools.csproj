@@ -396,7 +396,7 @@
                 />
                 <File
                     RelPath = "Forms\BodyPlan\ReceptiveFields.cs"
-                    SubType = "Code"
+                    SubType = "Form"
                     BuildAction = "Compile"
                 />
                 <File

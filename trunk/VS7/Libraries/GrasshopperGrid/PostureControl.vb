@@ -31,6 +31,7 @@ Namespace DataObjects.ExternalStimuli
         Protected m_snLegPeriod As AnimatTools.Framework.ScaledNumber
         Protected m_bEnableAbControl As Boolean = True
         Protected m_bLockAbJump As Boolean = True
+        Protected m_bTumblingSetup As Boolean = False
 
         Protected m_fltFrontRearLegJointHeight As Double = 0
         Protected m_fltEffectiveCoxaLength As Double = 0
@@ -326,6 +327,15 @@ Namespace DataObjects.ExternalStimuli
             End Set
         End Property
 
+        Public Overridable Property TumblingSetup() As Boolean
+            Get
+                Return m_bTumblingSetup
+            End Get
+            Set(ByVal Value As Boolean)
+                m_bTumblingSetup = Value
+            End Set
+        End Property
+
 #End Region
 
 #Region " Methods "
@@ -388,6 +398,7 @@ Namespace DataObjects.ExternalStimuli
             m_snAbPeriod = DirectCast(doPart.m_snAbPeriod.Clone(Me, bCutData, doRoot), ScaledNumber)
             m_snLegPeriod = DirectCast(doPart.m_snLegPeriod.Clone(Me, bCutData, doRoot), ScaledNumber)
 
+            m_bTumblingSetup = doPart.m_bTumblingSetup
             m_bEnableAbControl = doPart.m_bEnableAbControl
             m_bLockAbJump = doPart.m_bLockAbJump
 
@@ -446,6 +457,7 @@ Namespace DataObjects.ExternalStimuli
             oXml.AddChildElement("Pitch", fltPitch)
             oXml.AddChildElement("EnableAbControl", m_bEnableAbControl)
             oXml.AddChildElement("LockAbJump", m_bLockAbJump)
+            oXml.AddChildElement("TumblingSetup", m_bTumblingSetup)
 
             oXml.AddChildElement("AbDelay", m_snAbDelay.ActualValue)
             oXml.AddChildElement("AbPropGain", m_snAbPropGain.ActualValue)
@@ -697,6 +709,9 @@ Namespace DataObjects.ExternalStimuli
             m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("Lock Ab Jump", m_bLockAbJump.GetType(), "LockAbJump", _
                                         "Stimulus Properties", "If true then the ab joints are locked when jump starts.", m_bLockAbJump))
 
+            m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("Tumbling Setup", m_bTumblingSetup.GetType(), "TumblingSetup", _
+                                        "Stimulus Properties", "Set to true to reproduce experiments from tumbling paper.", m_bTumblingSetup))
+
         End Sub
 
         Public Overrides Sub ClearIsDirty()
@@ -732,6 +747,7 @@ Namespace DataObjects.ExternalStimuli
             m_snPitch.LoadData(oXml, "Pitch")
             m_bEnableAbControl = oXml.GetChildBool("EnableAbControl", True)
             m_bLockAbJump = oXml.GetChildBool("LockAbJump", True)
+            m_bTumblingSetup = oXml.GetChildBool("TumblingSetup", False)
 
             If oXml.FindChildElement("AbDelay", False) Then
                 m_snAbDelay.LoadData(oXml, "AbDelay")
@@ -770,6 +786,7 @@ Namespace DataObjects.ExternalStimuli
 
             oXml.AddChildElement("EnableAbControl", m_bEnableAbControl)
             oXml.AddChildElement("LockAbJump", m_bLockAbJump)
+            oXml.AddChildElement("TumblingSetup", m_bTumblingSetup)
 
             oXml.OutOfElem() ' Outof Node Element
 

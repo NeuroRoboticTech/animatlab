@@ -29,6 +29,7 @@ namespace FastNeuralNet
 			float m_fltAdapterMemoryI;  //Used to allow datacharts to track current input from adapters.
 			float m_fltVNoiseMax; //Tells the maximum noise to use when running sim
 			BOOL m_bUseNoise;    //Tells if we should use noise or not.
+			float m_fltTotalMemoryI; //Total current applied to the neuron
 
 			BOOL m_bGainType; 
 

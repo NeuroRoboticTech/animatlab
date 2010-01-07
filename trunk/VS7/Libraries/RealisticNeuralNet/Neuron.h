@@ -93,6 +93,8 @@ namespace RealisticNeuralNet
 		float m_fltExternalI;
 		float m_fltChannelI;
 		float m_fltChannelMemoryI;
+		float m_fltTotalI;
+		float m_fltTotalMemoryI;
 		float m_fltMemPot;
 		float m_fltThresholdMemory;  //Used to allow us to chart the threshold if needed.
 		float m_fltElecSynCurMemory;
@@ -109,6 +111,10 @@ namespace RealisticNeuralNet
 		//Vars to calculate the firing frequency of this neuron.
 		double m_fltLastSpikeTime;
 		float m_fltFiringFreq;
+
+		//Used to return the membrane conductance of this neuron in GetDataPointers.
+		float m_fltGm;
+		float m_fltVrest;
 
 		CStdArray<double> m_arySynG;	// current conductance of each synaptic type
 		
