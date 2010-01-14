@@ -97,6 +97,20 @@ Namespace Collections
                                            ByVal doRoot As AnimatTools.Framework.DataObject) As AnimatCollectionBase
         End Function
 
+        Public Overridable Function FindObjectByID(ByVal strID As String) As Framework.DataObject
+
+            Dim doObject As Framework.DataObject
+            Dim doFound As Framework.DataObject
+            For Each deObject As Object In Me
+                doFound = doObject.FindObjectByID(strID)
+                If Not doFound Is Nothing Then
+                    Return doFound
+                End If
+            Next
+
+            Return Nothing
+        End Function
+
     End Class
 
 End Namespace

@@ -108,6 +108,15 @@ Namespace DataObjects.Behavior.Nodes
             End Get
         End Property
 
+        Public Overridable ReadOnly Property LinkedID() As String
+            Get
+                If Not m_thLinkedPart Is Nothing AndAlso Not m_thLinkedPart.BodyPart Is Nothing Then
+                    Return m_thLinkedPart.BodyPart.ID
+                Else
+                    Return Me.ID
+                End If
+            End Get
+        End Property
 #End Region
 
 #Region " Methods "
@@ -192,6 +201,14 @@ Namespace DataObjects.Behavior.Nodes
             End If
 
             oXml.OutOfElem() ' Outof Node Element
+        End Sub
+
+        Protected Overrides Sub BuildProperties()
+            MyBase.BuildProperties()
+
+            m_Properties.Properties.Remove("ID")
+            m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("ID", Me.LinkedID.GetType(), "LinkedID", _
+                                        "Node Properties", "ID", Me.LinkedID, True))
         End Sub
 
 #End Region

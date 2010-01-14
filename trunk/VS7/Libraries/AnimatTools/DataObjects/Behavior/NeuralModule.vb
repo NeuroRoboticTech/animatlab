@@ -201,6 +201,9 @@ Namespace DataObjects.Behavior
 
         Protected Overrides Sub BuildProperties()
 
+            m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("ID", Me.ID.GetType(), "ID", _
+                                        "Module Properties", "ID", Me.ID, True))
+
             m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("Network Filename", GetType(String), "NetworkFilename", _
                                         "Module Properties", "Sets the filename for this neural network module.", Me.NetworkFilename, True))
 

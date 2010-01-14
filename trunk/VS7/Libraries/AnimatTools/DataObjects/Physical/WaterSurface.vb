@@ -55,6 +55,9 @@ Namespace DataObjects.Physical
             m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("Name", m_strName.GetType(), "Name", _
                                         "Surface Properties", "The name for this organism. ", m_strName, True))
 
+            m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("ID", Me.ID.GetType(), "ID", _
+                                        "Surface Properties", "ID", Me.ID, True))
+
             m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("Body Plan", Me.BodyPlanFile.GetType(), "BodyPlanFile", _
                                         "Surface Properties", "Specifies the body plan file.", Me.BodyPlanFile, True))
 

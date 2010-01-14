@@ -930,6 +930,9 @@ Namespace DataObjects.Physical
                                         "meters per second squared. regardless of the distance units specified.", pbNumberBag, _
                                         "", GetType(AnimatTools.Framework.ScaledNumber.ScaledNumericPropBagConverter)))
 
+            m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("ID", Me.ID.GetType(), "ID", _
+                                        "Settings", "ID", Me.ID, True))
+
             pbNumberBag = m_snMaxSurfaceFriction.Properties
             m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("Max Surface Friction", pbNumberBag.GetType(), "MaxSurfaceFriction", _
                                         "Settings", "Sets the surface friction for the simulation.", pbNumberBag, _
@@ -1349,6 +1352,19 @@ Namespace DataObjects.Physical
             oXml.OutOfElem() 'Outof Environment Element
 
         End Sub
+
+        Public Overrides Function FindObjectByID(ByVal strID As String) As Framework.DataObject
+
+            Dim doObject As AnimatTools.Framework.DataObject = MyBase.FindObjectByID(strID)
+            If doObject Is Nothing AndAlso Not m_aryOrganisms Is Nothing Then doObject = m_aryOrganisms.FindObjectByID(strID)
+            If doObject Is Nothing AndAlso Not m_aryStructures Is Nothing Then doObject = m_aryStructures.FindObjectByID(strID)
+            If doObject Is Nothing AndAlso Not m_aryOdorTypes Is Nothing Then doObject = m_aryOdorTypes.FindObjectByID(strID)
+            If doObject Is Nothing AndAlso Not m_doGround Is Nothing Then doObject = m_doGround.FindObjectByID(strID)
+            If doObject Is Nothing AndAlso Not m_doWater Is Nothing Then doObject = m_doWater.FindObjectByID(strID)
+            If doObject Is Nothing AndAlso Not m_doCamera Is Nothing Then doObject = m_doCamera.FindObjectByID(strID)
+            Return doObject
+
+        End Function
 
 #End Region
 

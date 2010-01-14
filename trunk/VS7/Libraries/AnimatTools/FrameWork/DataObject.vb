@@ -45,7 +45,7 @@ Namespace Framework
             End Set
         End Property
 
-        <Browsable(False)> _
+        <[ReadOnly](True)> _
         Public Overridable Property ID() As String
             Get
                 Return m_strID
@@ -461,6 +461,14 @@ Namespace Framework
                 colDataObjects.Add(Me)
             End If
         End Sub
+
+        Public Overridable Function FindObjectByID(ByVal strID As String) As AnimatTools.Framework.DataObject
+            If Me.ID = strID Then
+                Return Me
+            Else
+                Return Nothing
+            End If
+        End Function
 
         Public Overridable Sub ClearIsDirty()
             Me.IsDirty = False

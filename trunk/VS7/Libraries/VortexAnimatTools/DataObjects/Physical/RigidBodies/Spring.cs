@@ -298,6 +298,9 @@ namespace VortexAnimatTools.DataObjects.Physical.RigidBodies
 			m_Properties.Properties.Add(new Crownwood.Magic.Controls.PropertySpec("Name", m_strName.GetType(), "Name", 
 																	"Spring Properties", "The name of this item.", m_strName));
 
+			m_Properties.Properties.Add(new Crownwood.Magic.Controls.PropertySpec("ID", this.ID.GetType(), "ID", 
+				"Spring Properties", "ID", this.ID, true));
+
 			m_Properties.Properties.Add(new Crownwood.Magic.Controls.PropertySpec("Color", this.Color.GetType(), "Color",
 																	"Spring Properties", "Sets the color used to draw the muscle.", this.Color));
 			

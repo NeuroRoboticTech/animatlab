@@ -27,6 +27,7 @@ Namespace TypeHelpers
                         End If
 
                         frmGainEditor.Gain = DirectCast(oGain.Clone(oGain.Parent, False, Nothing), AnimatTools.DataObjects.Gain)
+                        frmGainEditor.Gain.ID = oGain.ID
                         frmGainEditor.PropertyName = context.PropertyDescriptor.Name
                         frmGainEditor.BarAssemblyFile = oGain.BarAssemblyFile
                         frmGainEditor.BarClassName = oGain.BarClassName

@@ -38,6 +38,8 @@ Namespace DataObjects
         Protected m_bSetSimEnd As Boolean = False
         Protected m_snSimEndTime As ScaledNumber
 
+        Protected m_strAPI_File As String = ""
+
 #End Region
 
 #Region " Properties "
@@ -146,6 +148,15 @@ Namespace DataObjects
                 End If
 
                 m_snSimEndTime.CopyData(Value)
+            End Set
+        End Property
+
+        Public Overridable Property APIFile() As String
+            Get
+                Return m_strAPI_File
+            End Get
+            Set(ByVal Value As String)
+                m_strAPI_File = Value
             End Set
         End Property
 
@@ -267,6 +278,12 @@ Namespace DataObjects
             'm_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("Use Release Libraries", m_bUseReleaseLibraries.GetType(), "UseReleaseLibraries", _
             '                            "Playback Control", "Determines if the debug or release libraries should be used for running the simulator.", m_bUseReleaseLibraries))
 
+            m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("ID", Me.ID.GetType(), "ID", _
+                                        "Settings", "ID", Me.ID, True))
+
+            m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("API File", m_strAPI_File.GetType(), "APIFile", _
+                                        "Settings", "APIFile", m_strAPI_File))
+
             m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("Log Level", GetType(AnimatTools.Interfaces.Logger.enumLogLevel), "LogLevel", _
                                         "Logging", "Sets the level of logging in the application.", Me.LogLevel))
 
@@ -315,6 +332,7 @@ Namespace DataObjects
             Me.EnableSimRecording = oXml.GetChildBool("EnableSimRecording", m_bEnableSimRecording)
             Me.AnimatModule = oXml.GetChildString("AnimatModule", m_strAnimatModule)
             m_strExternalStimuli = oXml.GetChildString("ExternalStimuli", "")
+            m_strAPI_File = oXml.GetChildString("APIFile", "")
 
             If oXml.FindChildElement("SetSimEnd", False) Then
                 m_bSetSimEnd = oXml.GetChildBool("SetSimEnd", m_bSetSimEnd)
@@ -351,6 +369,7 @@ Namespace DataObjects
             'oXml.AddChildElement("UseReleaseLibraries", m_bUseReleaseLibraries)
             oXml.AddChildElement("EnableSimRecording", m_bEnableSimRecording)
             oXml.AddChildElement("SetSimEnd", m_bSetSimEnd)
+            oXml.AddChildElement("APIFile", m_strAPI_File)
             m_snSimEndTime.SaveData(oXml, "SimEndTime")
 
             m_doEnvironment.SaveData(frmApplication, oXml)
@@ -405,6 +424,14 @@ Namespace DataObjects
             End If
 
         End Sub
+
+        Public Overrides Function FindObjectByID(ByVal strID As String) As Framework.DataObject
+
+            Dim doObject As AnimatTools.Framework.DataObject = MyBase.FindObjectByID(strID)
+            If doObject Is Nothing AndAlso Not m_doEnvironment Is Nothing Then doObject = m_doEnvironment.FindObjectByID(strID)
+            Return doObject
+
+        End Function
 
 #End Region
 

@@ -552,6 +552,9 @@ Namespace DataObjects.ExternalStimuli
             m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("Name", m_strName.GetType(), "Name", _
                                         "Stimulus Properties", "The name of this stimulus.", m_strName))
 
+            m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("ID", Me.ID.GetType(), "ID", _
+                                        "Stimulus Properties", "ID", Me.ID, True))
+
             Dim pbNumberBag As Crownwood.Magic.Controls.PropertyBag = m_snStartTime.Properties
             m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("Start Time", pbNumberBag.GetType(), "StartTime", _
                                         "Stimulus Properties", "This is the time at which the stimulus will be applied.", pbNumberBag, _

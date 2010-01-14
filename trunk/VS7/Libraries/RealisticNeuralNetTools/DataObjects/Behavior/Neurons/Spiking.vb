@@ -383,32 +383,32 @@ Namespace DataObjects.Behavior.Neurons
 
         End Function
 
-        Public Overrides Function CreateNewAdapter(ByRef bnOrigin As AnimatTools.DataObjects.Behavior.Node, _
-                                                   ByRef doParent As AnimatTools.Framework.DataObject) As AnimatTools.DataObjects.Behavior.Node
+        'Public Overrides Function CreateNewAdapter(ByRef bnOrigin As AnimatTools.DataObjects.Behavior.Node, _
+        '                                           ByRef doParent As AnimatTools.Framework.DataObject) As AnimatTools.DataObjects.Behavior.Node
 
-            ''If it does require an adapter then lets add the pieces.
-            Dim bnAdapter As AnimatTools.DataObjects.Behavior.Node
-            If bnOrigin.IsPhysicsEngineNode AndAlso Not Me.IsPhysicsEngineNode Then
-                'If the origin is physics node and the destination is a regular node
-                bnAdapter = New AnimatTools.DataObjects.Behavior.Nodes.PhysicalToNodeAdapter(doParent)
-            ElseIf Not bnOrigin.IsPhysicsEngineNode AndAlso Me.IsPhysicsEngineNode Then
-                'If the origin is regular node and the destination is a physics node
-                bnAdapter = New AnimatTools.DataObjects.Behavior.Nodes.NodeToPhysicalAdapter(doParent)
-            ElseIf Not bnOrigin.IsPhysicsEngineNode AndAlso Not Me.IsPhysicsEngineNode Then
-                'If both the origin and destination are regular nodes.
-                If Util.IsTypeOf(bnOrigin.GetType, "FastNeuralNetTools.DataObjects.Behavior.Neurons.Normal", False) Then
-                    'If the origin is of the type FastNeuralNetTools.DataObjects.Neurons.Normal then use our special adapter.
-                    bnAdapter = New DataObjects.Behavior.Neurons.FiringRateAdapter(doParent)
-                Else
-                    bnAdapter = New AnimatTools.DataObjects.Behavior.Nodes.NodeToNodeAdapter(doParent)
-                End If
-            Else
-                'If both the origin and destination are physics nodes.
-                Throw New System.Exception("You can only link two physics nodes using a graphical link.")
-            End If
+        '    ''If it does require an adapter then lets add the pieces.
+        '    Dim bnAdapter As AnimatTools.DataObjects.Behavior.Node
+        '    If bnOrigin.IsPhysicsEngineNode AndAlso Not Me.IsPhysicsEngineNode Then
+        '        'If the origin is physics node and the destination is a regular node
+        '        bnAdapter = New AnimatTools.DataObjects.Behavior.Nodes.PhysicalToNodeAdapter(doParent)
+        '    ElseIf Not bnOrigin.IsPhysicsEngineNode AndAlso Me.IsPhysicsEngineNode Then
+        '        'If the origin is regular node and the destination is a physics node
+        '        bnAdapter = New AnimatTools.DataObjects.Behavior.Nodes.NodeToPhysicalAdapter(doParent)
+        '    ElseIf Not bnOrigin.IsPhysicsEngineNode AndAlso Not Me.IsPhysicsEngineNode Then
+        '        'If both the origin and destination are regular nodes.
+        '        If Util.IsTypeOf(bnOrigin.GetType, "FastNeuralNetTools.DataObjects.Behavior.Neurons.Normal", False) Then
+        '            'If the origin is of the type FastNeuralNetTools.DataObjects.Neurons.Normal then use our special adapter.
+        '            bnAdapter = New DataObjects.Behavior.Neurons.FiringRateAdapter(doParent)
+        '        Else
+        '            bnAdapter = New AnimatTools.DataObjects.Behavior.Nodes.NodeToNodeAdapter(doParent)
+        '        End If
+        '    Else
+        '        'If both the origin and destination are physics nodes.
+        '        Throw New System.Exception("You can only link two physics nodes using a graphical link.")
+        '    End If
 
-            Return bnAdapter
-        End Function
+        '    Return bnAdapter
+        'End Function
 
         Public Overrides Sub SaveNetwork(ByRef oXml As AnimatTools.Interfaces.StdXml, ByRef nmModule As AnimatTools.DataObjects.Behavior.NeuralModule)
 

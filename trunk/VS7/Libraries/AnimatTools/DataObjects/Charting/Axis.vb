@@ -444,6 +444,9 @@ Namespace DataObjects.Charting
 
         Protected Overrides Sub BuildProperties()
 
+            m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("ID", Me.ID.GetType(), "ID", _
+                                        "Axis Properties", "ID", Me.ID, True))
+
             m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("Name", m_strName.GetType(), "Name", _
                                         "Axis Properties", "The name of this axis.", m_strName))
 

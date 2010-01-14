@@ -915,6 +915,9 @@ Namespace DataObjects.Behavior
 
         Protected Overrides Sub BuildProperties()
 
+            m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("ID", Me.ID.GetType(), "ID", _
+                                        "Link Properties", "ID", Me.ID, True))
+
             m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("Link Type", GetType(String), "TypeName", _
                                         "Link Properties", "Returns the type of this link.", TypeName(), True))
 

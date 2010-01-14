@@ -138,6 +138,9 @@ Namespace DataObjects.Physical
             m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("Name", m_strName.GetType(), "Name", _
                                         "Organism Properties", "The name for this organism. ", m_strName))
 
+            m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("ID", Me.ID.GetType(), "ID", _
+                                        "Organism Properties", "ID", Me.ID, True))
+
             If m_bReference AndAlso Not Me.Reference Is Nothing Then
                 m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("Reference", GetType(String), "ReferenceName", _
                                             "Organism Properties", "The name of the organism that this one references. ", Me.ReferenceName, True))
@@ -414,6 +417,16 @@ Namespace DataObjects.Physical
             End If
 
         End Sub
+
+        Public Overrides Function FindObjectByID(ByVal strID As String) As Framework.DataObject
+
+            Dim doObject As AnimatTools.Framework.DataObject = MyBase.FindObjectByID(strID)
+            If doObject Is Nothing AndAlso Not m_aryBehavioralNodes Is Nothing Then doObject = m_aryBehavioralNodes.FindObjectByID(strID)
+            If doObject Is Nothing AndAlso Not m_aryBehavioralLinks Is Nothing Then doObject = m_aryBehavioralLinks.FindObjectByID(strID)
+            If doObject Is Nothing AndAlso Not m_aryNeuralModules Is Nothing Then doObject = m_aryNeuralModules.FindObjectByID(strID)
+            Return doObject
+
+        End Function
 
 #End Region
 

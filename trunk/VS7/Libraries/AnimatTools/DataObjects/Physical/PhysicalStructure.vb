@@ -410,6 +410,9 @@ Namespace DataObjects.Physical
             m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("Name", m_strName.GetType(), "Name", _
                                         "Structure Properties", "The name for this structure. ", m_strName))
 
+            m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("ID", Me.ID.GetType(), "ID", _
+                                        "Structure Properties", "ID", Me.ID, True))
+
             If m_bReference AndAlso Not Me.Reference Is Nothing Then
                 m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("Reference", GetType(String), "ReferenceName", _
                                             "Structure Properties", "The name of the structure that this one references. ", Me.ReferenceName, True))
@@ -1215,6 +1218,16 @@ Namespace DataObjects.Physical
         Public Overridable Sub Delete()
             Me.OnDeleteStructure(Me, New System.EventArgs)
         End Sub
+
+        Public Overrides Function FindObjectByID(ByVal strID As String) As Framework.DataObject
+
+            Dim doObject As AnimatTools.Framework.DataObject = MyBase.FindObjectByID(strID)
+            If doObject Is Nothing AndAlso Not m_dbRoot Is Nothing Then doObject = m_dbRoot.FindObjectByID(strID)
+            If doObject Is Nothing AndAlso Not m_aryCollisionExclusionPairs Is Nothing Then doObject = m_aryCollisionExclusionPairs.FindObjectByID(strID)
+            If doObject Is Nothing AndAlso Not m_aryMicrocontrollers Is Nothing Then doObject = m_aryMicrocontrollers.FindObjectByID(strID)
+            Return doObject
+
+        End Function
 
 #End Region
 

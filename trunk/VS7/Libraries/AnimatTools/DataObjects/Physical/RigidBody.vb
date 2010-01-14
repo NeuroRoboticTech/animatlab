@@ -636,6 +636,19 @@ Namespace DataObjects.Physical
 
         End Sub
 
+        Public Overrides Function FindObjectByID(ByVal strID As String) As Framework.DataObject
+
+            Dim doObject As AnimatTools.Framework.DataObject = MyBase.FindObjectByID(strID)
+            If doObject Is Nothing AndAlso Not m_JointToParent Is Nothing Then doObject = m_JointToParent.FindObjectByID(strID)
+            If doObject Is Nothing AndAlso Not m_aryChildBodies Is Nothing Then doObject = m_aryChildBodies.FindObjectByID(strID)
+            If doObject Is Nothing AndAlso Not m_gnReceptiveFieldGain Is Nothing Then doObject = m_gnReceptiveFieldGain.FindObjectByID(strID)
+            If doObject Is Nothing AndAlso Not m_gnReceptiveCurrentGain Is Nothing Then doObject = m_gnReceptiveCurrentGain.FindObjectByID(strID)
+            If doObject Is Nothing AndAlso Not m_aryReceptiveFieldPairs Is Nothing Then doObject = m_aryReceptiveFieldPairs.FindObjectByID(strID)
+            If doObject Is Nothing AndAlso Not m_aryOdorSources Is Nothing Then doObject = m_aryOdorSources.FindObjectByID(strID)
+            Return doObject
+
+        End Function
+
         Public Overrides Function CreateJointTreeView(ByRef tvTree As TreeView, ByVal tnParent As TreeNode, _
                                                       ByVal thSelectedPart As TypeHelpers.LinkedBodyPart) As TreeNode
 

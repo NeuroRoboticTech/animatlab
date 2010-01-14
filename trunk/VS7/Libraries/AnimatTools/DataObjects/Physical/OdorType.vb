@@ -65,6 +65,9 @@ Namespace DataObjects.Physical
             m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("Name", m_strID.GetType(), "Name", _
                                         "Odor Type Properties", "The name of this odor Type.", m_strName))
 
+            m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("ID", Me.ID.GetType(), "ID", _
+                                        "Odor Type Properties", "ID", Me.ID, True))
+
             Dim pbNumberBag As Crownwood.Magic.Controls.PropertyBag = m_snDiffusionConstant.Properties
             m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("Diffusion Constant", pbNumberBag.GetType(), "DiffusionConstant", _
                                         "Odor Type Properties", "Sets the rate of diffusion of this odor.", pbNumberBag, _

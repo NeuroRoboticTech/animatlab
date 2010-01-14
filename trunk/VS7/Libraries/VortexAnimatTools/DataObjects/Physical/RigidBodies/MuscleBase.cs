@@ -379,10 +379,22 @@ namespace VortexAnimatTools.DataObjects.Physical.RigidBodies
 
 		}
 
+		public override AnimatTools.Framework.DataObject FindObjectByID(string strID)
+		{
+            AnimatTools.Framework.DataObject doObject = base.FindObjectByID(strID);
+            if(doObject == null && m_StimTension != null) doObject = m_StimTension.FindObjectByID(strID);
+			if(doObject == null && m_LengthTension != null) doObject = m_LengthTension.FindObjectByID(strID);
+			if(doObject == null && m_VelocityTension != null) doObject = m_VelocityTension.FindObjectByID(strID);
+            return doObject;
+		}
+
 		protected override void BuildProperties()
 		{
 			m_Properties.Properties.Add(new Crownwood.Magic.Controls.PropertySpec("Name", m_strName.GetType(), "Name", 
 				"Muscle Properties", "The name of this item.", m_strName));
+
+			m_Properties.Properties.Add(new Crownwood.Magic.Controls.PropertySpec("ID", this.ID.GetType(), "ID", 
+				"Muscle Properties", "ID", this.ID, true));
 
 			m_Properties.Properties.Add(new Crownwood.Magic.Controls.PropertySpec("Color", this.Color.GetType(), "Color",
 				"Muscle Properties", "Sets the color used to draw the muscle.", this.Color));

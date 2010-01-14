@@ -156,6 +156,23 @@ Namespace Collections
 
         End Function
 
+        Public Overridable Function FindObjectByID(ByVal strID As String) As Framework.DataObject
+
+            Dim doObject As AnimatTools.Framework.DataObject
+            Dim doFound As Framework.DataObject
+            For Each deEntry As DictionaryEntry In Me
+                If TypeOf deEntry.Value Is AnimatTools.Framework.DataObject Then
+                    doObject = DirectCast(deEntry.Value, AnimatTools.Framework.DataObject)
+                    doFound = doObject.FindObjectByID(strID)
+                    If Not doFound Is Nothing Then
+                        Return doFound
+                    End If
+                End If
+            Next
+
+            Return Nothing
+        End Function
+
     End Class
 
 End Namespace

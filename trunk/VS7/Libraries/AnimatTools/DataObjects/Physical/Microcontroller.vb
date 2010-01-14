@@ -395,6 +395,9 @@ Namespace DataObjects.Physical
 
         Protected Overrides Sub BuildProperties()
 
+            m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("ID", Me.ID.GetType(), "ID", _
+                                        "Controller Properties", "ID", Me.ID, True))
+
             m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("Input Array Size", m_iInputArraySize.GetType(), "InputArraySize", _
                                         "Controller Properties", "The size of the sensory input array in bytes.", m_iInputArraySize, True))
 

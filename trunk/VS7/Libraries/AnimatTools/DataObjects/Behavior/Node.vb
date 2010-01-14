@@ -1041,6 +1041,9 @@ Namespace DataObjects.Behavior
             'Protected m_ptImageLocation As PointF
             'Protected m_eImagePosition As enumImagePosition
 
+            m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("ID", Me.ID.GetType(), "ID", _
+                                        "Node Properties", "ID", Me.ID, True))
+
             m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("Node Type", GetType(String), "TypeName", _
                                         "Node Properties", "Returns the type of this node.", TypeName(), True))
 

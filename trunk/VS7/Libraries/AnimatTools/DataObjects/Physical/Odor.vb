@@ -108,6 +108,9 @@ Namespace DataObjects.Physical
             m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("Name", m_strID.GetType(), "Name", _
                                         "Odor Properties", "The name of this odor.", m_strName, True))
 
+            m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("ID", Me.ID.GetType(), "ID", _
+                                        "Odor Properties", "ID", Me.ID, True))
+
             m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("Use Food Quantity", m_bUseFoodQuantity.GetType(), "UseFoodQuantity", _
                                         "Odor Properties", "If this is true then the odor quantity is determined by the food quantity value of this part.", m_bUseFoodQuantity))
 

@@ -346,6 +346,9 @@ Namespace DataObjects
 
         Protected Overrides Sub BuildProperties()
 
+            m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("ID", Me.ID.GetType(), "ID", _
+                                        "Gain Limits", "ID", Me.ID, True))
+
             m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("Use Limits", m_bUseLimits.GetType(), "UseLimits", _
                                         "Gain Limits", "Sets the whether to use the upper and lower limits on the x variable.", m_bUseLimits, _
                                         (m_bLimitsReadOnly Or m_bLimitOutputsReadOnly)))
@@ -378,6 +381,7 @@ Namespace DataObjects
 
             oXml.IntoChildElement(strName)
 
+            m_strID = oXml.GetChildString("ID", Me.ID)
             m_bUseLimits = oXml.GetChildBool("UseLimits")
 
             m_bLimitsReadOnly = oXml.GetChildBool("LimitsReadOnly", m_bLimitsReadOnly)
@@ -405,6 +409,7 @@ Namespace DataObjects
             oXml.AddChildElement(strName)
             oXml.IntoElem()
 
+            oXml.AddChildElement("ID", Me.ID)
             oXml.AddChildElement("Type", Me.Type())
             oXml.AddChildElement("AssemblyFile", Me.AssemblyFile)
             oXml.AddChildElement("ClassName", Me.ClassName)

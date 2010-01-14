@@ -493,6 +493,9 @@ Namespace DataObjects.Physical
             m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("Name", m_strID.GetType(), "Name", _
                                         "Part Properties", "The name of this item.", m_strName))
 
+            m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("ID", Me.ID.GetType(), "ID", _
+                                        "Part Properties", "ID", Me.ID, True))
+
             Dim pbNumberBag As Crownwood.Magic.Controls.PropertyBag = Me.XRotationScaled.Properties
             m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("X", pbNumberBag.GetType(), "XRotationScaled", _
                                         "Rotation", "Sets the x rotation of this body part.", pbNumberBag, _

@@ -490,6 +490,9 @@ Namespace DataObjects.Charting
 
         Protected Overrides Sub BuildProperties()
 
+            m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("ID", Me.ID.GetType(), "ID", _
+                                        "Column Properties", "ID", Me.ID, True))
+
             m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("Name", GetType(String), "Name", _
                                         "Column Properties", "The name of this column.", Name()))
 

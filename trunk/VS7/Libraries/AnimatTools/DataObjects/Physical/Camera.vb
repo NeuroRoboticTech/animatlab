@@ -388,6 +388,9 @@ Namespace DataObjects.Physical
                                         "Camera Properties", "Sets the elevation of the camera.", pbNumberBag, _
                                         "", GetType(AnimatTools.Framework.ScaledNumber.ScaledNumericPropBagConverter)))
 
+            m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("ID", Me.ID.GetType(), "ID", _
+                                        "Camera Properties", "ID", Me.ID, True))
+
             pbNumberBag = m_snOffset.Properties
             m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("Offset", pbNumberBag.GetType(), "OffsetScaled", _
                                         "Camera Properties", "Sets the offset of the camera.", pbNumberBag, _

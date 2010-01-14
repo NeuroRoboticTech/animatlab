@@ -304,6 +304,8 @@ Namespace Forms.Tools
             m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("MainTitle", GetType(String), "MainTitle", _
                                         "Gain Limits", "Sets the main title of this graph.", MainTitle))
 
+            m_Properties.Properties.Add(New Crownwood.Magic.Controls.PropertySpec("ID", Me.ID.GetType(), "ID", _
+                                        "Settings", "ID", Me.ID, True))
         End Sub
 
         Public Overridable Sub DrawGainChart()

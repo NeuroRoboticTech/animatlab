@@ -1999,6 +1999,8 @@ Namespace Forms
 
                 Me.Logger.LogMsg(Interfaces.Logger.enumLogLevel.Info, "Finished successful load of project: '" & strFilename & "'")
 
+                'Dim doObj As Framework.DataObject = Me.Simulation.FindObjectByID("e099ff55-84f7-48bc-bb55-cb10302fe0ec")
+
             Catch ex As System.Exception
                 Me.Logger.LogMsg(Interfaces.Logger.enumLogLevel.Info, "Unable to load project: '" & strFilename & "'")
                 Throw ex
